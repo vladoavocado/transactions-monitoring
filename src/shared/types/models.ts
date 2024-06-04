@@ -9,10 +9,13 @@ export namespace Models {
     uid: string;
   }
 
-  export interface IAccount extends IAccountServer {}
+  export interface IAccount extends Omit<IAccountServer, 'uid'> {
+    uid: Nullable<string>;
+  }
 
   export interface IAccountModel extends IAccount {
     parse(data: IAccountServer): void;
+    clear(): void;
   }
 
   export interface IAuthModel {

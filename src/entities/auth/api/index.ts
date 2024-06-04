@@ -81,4 +81,16 @@ export class AuthApi implements IAuthApi {
       this._transitState('isPending', false);
     }
   }
+
+  async logout() {
+    try {
+      const result = await this.thirdPartyAuth.signOut();
+      console.log({ result });
+    } catch (err) {
+      throw err;
+    } finally {
+      this.store.account?.clear();
+      this.store.auth?.resetToken();
+    }
+  }
 }

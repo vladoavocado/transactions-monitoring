@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'src/app/routes';
 import { AuthorizationForm } from 'src/widgets/authorization-form';
+import { Logotype } from 'src/shared/ui/Logotype';
 
 const useSubheaderText = () => {
   const { pathname } = useLocation();
@@ -26,15 +27,7 @@ export function AuthPage() {
       }}
     >
       <CardHeader
-        title={
-          <Typography
-            variant='h3'
-            fontFamily='Merriweather, Roboto, Sans Serif'
-            fontWeight='bold'
-          >
-            Альфа
-          </Typography>
-        }
+        title={<Logotype />}
         subheader={
           <Typography mt={1} variant='body1'>
             {subheaderText}

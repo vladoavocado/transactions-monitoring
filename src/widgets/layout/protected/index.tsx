@@ -3,6 +3,7 @@ import { IChildren } from 'src/shared/types';
 import { Grid } from '@mui/material';
 import { logger } from 'src/shared/utils';
 import { Stack } from '@mui/system';
+import { NavigationBar } from 'src/widgets/navigation-bar';
 
 interface IProps extends IChildren {}
 
@@ -11,7 +12,7 @@ export function ProtectedLayout({ children }: IProps) {
 
   return (
     <Grid container>
-      {/* Top Navigation */}
+      <NavigationBar />
       <Grid container>
         <Stack
           sx={{ background: 'primary.white' }}

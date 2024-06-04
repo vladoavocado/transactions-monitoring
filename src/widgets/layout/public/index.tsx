@@ -8,12 +8,11 @@ export function PublicLayout() {
     <Stack
       alignItems='center'
       justifyContent='center'
-      sx={({ palette }) => ({
+      sx={{
         height: '100vh',
         width: '100%',
         overflow: 'hidden',
-        background: palette.grey[200],
-      })}
+      }}
     >
       <Outlet />
     </Stack>

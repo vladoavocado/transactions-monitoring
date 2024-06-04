@@ -15,7 +15,7 @@ export class AccountModel implements IAccountModel {
 
   phoneNumber: Nullable<string> = null;
 
-  uid: string = nanoid();
+  uid: Nullable<string> = null;
 
   constructor() {
     makeAutoObservable<AccountModel>(this);
@@ -27,5 +27,13 @@ export class AccountModel implements IAccountModel {
         (this as any)[prop] = user[prop as keyof IAccountServer];
       }
     });
+  }
+
+  clear() {
+    this.displayName = null;
+    this.photoURL = null;
+    this.email = null;
+    this.phoneNumber = null;
+    this.uid = null;
   }
 }

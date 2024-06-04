@@ -55,6 +55,7 @@ export namespace ReactiveApi {
       password: string,
     ): Promise<void>;
     loginWithEmailAndPassword(email: string, password: string): Promise<void>;
+    logout(): Promise<void>;
   }
 
   export interface IRootApi {
