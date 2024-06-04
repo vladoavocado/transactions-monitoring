@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState, MouseEvent } from 'react';
+import React, { useCallback, useState, MouseEvent } from 'react';
 import { Theme } from '@mui/material/styles';
 import {
   Avatar,
@@ -15,27 +15,21 @@ import { Logout, Person } from '@mui/icons-material';
 import { useAPI } from 'src/app/providers';
 import { Nullable } from 'src/shared';
 
-interface IProps {}
-
-export function NavigationBar(props: IProps) {
+export function NavigationBar() {
   const [anchorEl, setAnchorEl] = useState<Nullable<HTMLElement>>(null);
+  const isVisible = Boolean(anchorEl);
   const { auth: authApi } = useAPI();
-  const [isVisible, setIsVisible] = useState(false);
 
   const openContextMenu = useCallback((event: MouseEvent<HTMLElement>) => {
-    setIsVisible(true);
     setAnchorEl(event.currentTarget);
   }, []);
 
   const closeContextMenu = useCallback(() => {
-    setIsVisible(false);
     setAnchorEl(null);
-  }, []);
+  }, [anchorEl]);
 
   const logout = useCallback(async () => {
     await authApi?.logout?.();
-
-    setIsVisible(false);
     setAnchorEl(null);
   }, [authApi]);
 
@@ -72,7 +66,7 @@ export function NavigationBar(props: IProps) {
           sx={{ cursor: 'pointer' }}
           onClick={openContextMenu}
         >
-          <Avatar variant='circular' color='grey.400' onClick={openContextMenu}>
+          <Avatar variant='circular' color='grey.400'>
             <Person />
           </Avatar>
           <Stack alignItems='flex-start'>
@@ -81,26 +75,25 @@ export function NavigationBar(props: IProps) {
               Руководитель отдела
             </Typography>
           </Stack>
-          <Menu
-            sx={{ mt: 0.5 }}
-            id='fade-menu'
-            MenuListProps={{
-              'aria-labelledby': 'fade-button',
-            }}
-            anchorEl={anchorEl}
-            open={isVisible}
-            onClose={closeContextMenu}
-            onClick={closeContextMenu}
-            TransitionComponent={Fade}
-          >
-            <MenuItem onClick={logout}>
-              <ListItemIcon>
-                <Logout fontSize='small' />
-              </ListItemIcon>
-              Выйти
-            </MenuItem>
-          </Menu>
         </Stack>
+        <Menu
+          sx={{ mt: 0.5 }}
+          id='fade-menu'
+          MenuListProps={{
+            'aria-labelledby': 'fade-button',
+          }}
+          open={isVisible}
+          anchorEl={anchorEl}
+          onClose={closeContextMenu}
+          TransitionComponent={Fade}
+        >
+          <MenuItem onClick={logout}>
+            <ListItemIcon>
+              <Logout fontSize='small' />
+            </ListItemIcon>
+            Выйти
+          </MenuItem>
+        </Menu>
       </Stack>
     </Box>
   );
