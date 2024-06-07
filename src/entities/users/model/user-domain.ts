@@ -1,5 +1,6 @@
+import { makeAutoObservable } from 'mobx';
 import { Models, Nullable, RemoteShapes } from 'src/shared/types';
-import { toCamelCase } from 'src/shared/utils';
+import { merge } from 'src/shared/utils/merge';
 
 import IUser = Models.IUser;
 import IUserShape = RemoteShapes.IUserShape;
@@ -28,12 +29,11 @@ export class UserDomain implements IUser {
   role: number = 3;
 
   constructor(data: IUserShape) {
-    Object.entries(data).forEach(([key, value]) => {
-      const transformedKey = toCamelCase(key);
+    merge<IUserShape>(data, this);
+    makeAutoObservable(this);
+  }
 
-      if (transformedKey in this) {
-        (this as any)[transformedKey] = value;
-      }
-    });
+  get name() {
+    return this.initials;
   }
 }

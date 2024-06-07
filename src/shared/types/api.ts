@@ -7,6 +7,8 @@ export namespace ReactiveApi {
   import ITransaction = Models.ITransaction;
   import IUserShape = RemoteShapes.IUserShape;
   import IUser = Models.IUser;
+  import IOrganizationShape = RemoteShapes.IOrganizationShape;
+  import IOrganization = Models.IOrganization;
 
   type IApiOptions = Record<string, any>;
 
@@ -14,10 +16,21 @@ export namespace ReactiveApi {
 
   export type Payload = Record<string, any>;
 
-  export interface IDatabaseQuery {
+  interface IWhereCondition {
     fieldPath: string;
     filter: WhereFilterOp;
-    value: unknown;
+    value: any;
+  }
+
+  interface IOrderByCondition {
+    fieldPath: string;
+    direction?: 'asc' | 'desc';
+  }
+
+  export interface IDatabaseQuery {
+    whereConditions?: IWhereCondition[];
+    orderByConditions?: IOrderByCondition[];
+    limit?: number;
   }
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -28,6 +41,11 @@ export namespace ReactiveApi {
       data: D,
       id?: string,
     ): Promise<T>;
+    setMultiple<D extends Record<string, any>, T>(
+      path: string,
+      data: D,
+      ids?: string[],
+    ): Promise<T[]>;
     delete<T>(path: string, id: string): Promise<T>;
     subscribe<T>(
       path: string,
@@ -40,8 +58,8 @@ export namespace ReactiveApi {
   export interface IBaseApi<TData extends Payload, TResult> {
     fetch(query?: IDatabaseQuery): Promise<TResult | TResult[]>;
     createOrUpdate(
-      data: TData,
-      id?: string,
+      data: Partial<TData>,
+      id?: string | string[],
       options?: IApiOptions,
     ): Promise<TResult | TResult[]>;
     delete(id: string): Promise<TResult>;
@@ -61,9 +79,14 @@ export namespace ReactiveApi {
   }
 
   export interface ITransactionsApi
-    extends IBaseApi<ITransactionShape, ITransaction> {}
+    extends IBaseApi<ITransactionShape, ITransaction>,
+      IApiState {}
 
-  export interface IUsersApi extends IBaseApi<IUserShape, IUser> {}
+  export interface IUsersApi extends IBaseApi<IUserShape, IUser>, IApiState {}
+
+  export interface IOrganizationsApi
+    extends IBaseApi<IOrganizationShape, IOrganization>,
+      IApiState {}
 
   export interface IAuthApi extends IAuthApiState {
     registerWithEmailAndPassword(
@@ -78,5 +101,6 @@ export namespace ReactiveApi {
     auth: Nullable<IAuthApi>;
     transactions: Nullable<ITransactionsApi>;
     users: Nullable<IUsersApi>;
+    organizations: Nullable<IOrganizationsApi>;
   }
 }

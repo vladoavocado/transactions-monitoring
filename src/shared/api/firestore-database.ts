@@ -9,6 +9,11 @@ import {
   where,
   onSnapshot,
   setDoc,
+  limit,
+  orderBy,
+  Query,
+  CollectionReference,
+  writeBatch,
 } from 'firebase/firestore';
 
 import { ReactiveApi } from 'src/shared/types';
@@ -21,17 +26,29 @@ export class FirebaseDatabase implements IDatabase {
 
   private subscriptions: IDatabaseSubscription[] = [];
 
-  private _query(path: string, queryObj: IDatabaseQuery) {
-    const c = collection(this.db, path);
-    const matchesQuerySchema =
-      'fieldPath' in queryObj && 'filter' in queryObj && 'value' in queryObj;
+  private _query(
+    path: string,
+    queryObj: IDatabaseQuery,
+  ): Query | CollectionReference {
+    let firestoreQuery: Query | CollectionReference = collection(this.db, path);
 
-    if (matchesQuerySchema) {
-      const { fieldPath, filter, value } = queryObj;
-      return query(c, where(fieldPath, filter, value));
+    if (queryObj.whereConditions) {
+      queryObj.whereConditions.forEach(({ fieldPath, filter, value }) => {
+        firestoreQuery = query(firestoreQuery, where(fieldPath, filter, value));
+      });
     }
 
-    return c;
+    if (queryObj.orderByConditions) {
+      queryObj.orderByConditions.forEach(({ fieldPath, direction = 'asc' }) => {
+        firestoreQuery = query(firestoreQuery, orderBy(fieldPath, direction));
+      });
+    }
+
+    if (queryObj.limit !== undefined) {
+      firestoreQuery = query(firestoreQuery, limit(queryObj.limit));
+    }
+
+    return firestoreQuery;
   }
 
   async get<T>(path: string, queryObj?: IDatabaseQuery): Promise<T> {
@@ -50,6 +67,24 @@ export class FirebaseDatabase implements IDatabase {
     const docRef = doc(this.db, path, id);
     await setDoc(docRef, data, { merge: true });
     return { id: docRef.id, ...data } as unknown as T;
+  }
+
+  async setMultiple<D extends Record<string, any>, T>(
+    path: string,
+    data: D,
+    ids: string[],
+  ): Promise<T[]> {
+    const batch = writeBatch(this.db);
+    const results: T[] = [];
+
+    ids.forEach(id => {
+      const docRef = doc(this.db, path, id);
+      batch.set(docRef, data, { merge: true });
+      results.push({ id: docRef.id, ...data } as unknown as T);
+    });
+
+    await batch.commit();
+    return results;
   }
 
   async delete<T>(path: string): Promise<T> {

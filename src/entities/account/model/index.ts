@@ -50,4 +50,10 @@ export class AccountModel implements IAccountModel {
         return null;
     }
   }
+
+  get isAdmin() {
+    const userRole = this.userRef?.role;
+
+    return userRole === 1;
+  }
 }

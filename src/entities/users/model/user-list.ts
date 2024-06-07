@@ -9,4 +9,8 @@ export class UsersList extends EntityModel<IUser> implements IUsersModel {
   constructor(private readonly store: IRootModel) {
     super();
   }
+
+  get employees() {
+    return this.values.filter(user => user.role === 2);
+  }
 }

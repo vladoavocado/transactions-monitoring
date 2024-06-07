@@ -1,26 +1,37 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { TopBar } from 'src/widgets/top-bar';
 import { Navigation } from 'src/widgets/navigation';
 import { Outlet } from 'react-router-dom';
 
 export function ProtectedLayout() {
   return (
-    <Grid container>
-      <Grid item container xs={12}>
-        <TopBar />
-      </Grid>
-      <Grid item container xs={12}>
-        <Grid item xs={2}>
-          <Navigation />
-        </Grid>
-        <Grid item xs={1} />
-        <Grid item container xs={8} sx={{ mt: 5 }} alignItems='flex-start'>
-          <Outlet />
-        </Grid>
-        <Grid item xs={1} />
-        <Grid />
-      </Grid>
-    </Grid>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateRows: 'min-content 1fr',
+        gap: 5,
+        px: {
+          xs: 3.75,
+          xl: 15,
+        },
+        pt: {
+          xs: 3.75,
+          xl: 7.5,
+        },
+      }}
+    >
+      <TopBar />
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: 'min-content 1fr',
+          gap: 4,
+        }}
+      >
+        <Navigation />
+        <Outlet />
+      </Box>
+    </Box>
   );
 }

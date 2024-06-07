@@ -38,12 +38,12 @@ export function TopBar() {
       sx={({ palette }: Theme) => ({
         background: palette.common.white,
         height: '48px',
+        borderRadius: 4,
         p: 2,
         px: {
           xs: 2,
           md: 4,
         },
-        width: '100%',
       })}
     >
       <Stack alignItems='center' direction='row'>

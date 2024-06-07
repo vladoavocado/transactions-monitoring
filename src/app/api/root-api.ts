@@ -7,6 +7,7 @@ import IAuthApi = ReactiveApi.IAuthApi;
 import IRootModel = Models.IRootModel;
 import ITransactionsApi = ReactiveApi.ITransactionsApi;
 import IUsersApi = ReactiveApi.IUsersApi;
+import IOrganizationsApi = ReactiveApi.IOrganizationsApi;
 
 /* eslint-disable no-underscore-dangle */
 export class RootApi implements IRootApi {
@@ -15,6 +16,8 @@ export class RootApi implements IRootApi {
   transactions: Nullable<ITransactionsApi> = null;
 
   users: Nullable<IUsersApi> = null;
+
+  organizations: Nullable<IOrganizationsApi> = null;
 
   constructor(
     store: IRootModel,

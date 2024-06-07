@@ -15,10 +15,12 @@ export namespace RemoteShapes {
   }
 
   export interface ITransactionShape {
-    check_code: string;
-    comment: string;
-    issuer: string;
+    request_number: number;
+    check_code: number;
     status: number;
+    comment: string;
+    issuer: Nullable<string>;
+    employee: Nullable<string>;
     transfer_amount: number;
   }
 
@@ -28,6 +30,7 @@ export namespace RemoteShapes {
     company: string;
     country_of_registration: string;
     okved: string;
+    inn: string;
   }
 
   export interface IChatShape {

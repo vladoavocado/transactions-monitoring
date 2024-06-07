@@ -7,6 +7,7 @@ import IAuthModel = Models.IAuthModel;
 import IRootModel = Models.IRootModel;
 import IUsersModel = Models.IUsersModel;
 import ITransactionsModel = Models.ITransactionsModel;
+import IOrganizationsModel = Models.IOrganizationsModel;
 
 export class RootModel implements IRootModel {
   ui = new GlobalUi(this);
@@ -19,6 +20,8 @@ export class RootModel implements IRootModel {
 
   transactions: Nullable<ITransactionsModel> = null;
 
+  organizations: Nullable<IOrganizationsModel> = null;
+
   constructor(models: Record<keyof IRootModel, new (...args: any[]) => any>) {
     if (!models) {
       throw new TypeError(
@@ -28,7 +31,6 @@ export class RootModel implements IRootModel {
 
     Object.entries(models).forEach(([key, Model]) => {
       try {
-        console.log({ Model });
         (this as any)[key] = new Model(this);
       } catch (err) {
         logger.error(

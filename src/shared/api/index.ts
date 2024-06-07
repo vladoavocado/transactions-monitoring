@@ -70,9 +70,13 @@ export abstract class BaseApi<TData extends Record<string, any>, TResult>
     }
   }
 
-  async createOrUpdate(data: TData, uid?: string) {
+  async createOrUpdate(data: TData, uid?: string | string[]) {
     this.isUpdating = true;
     try {
+      if (Array.isArray(uid)) {
+        return await this.db.setMultiple<TData, TResult>(this.path, data, uid);
+      }
+
       return await this.db.set<TData, TResult>(this.path, data, uid);
     } finally {
       runInAction(() => {

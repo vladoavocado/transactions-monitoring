@@ -15,10 +15,12 @@ import { AuthModel } from 'src/entities/auth/model';
 import { AuthApi } from 'src/entities/auth/api';
 import { BACKEND_CONFIG } from 'src/configs/env';
 import { logger } from 'src/shared/utils';
-import { TransactionsModel } from 'src/entities/transactions/model';
+import { TransactionsList } from 'src/entities/transactions/model';
 import { UsersList } from 'src/entities/users/model';
 import { TransactionsApi } from 'src/entities/transactions/api';
 import { UsersApi } from 'src/entities/users/api';
+import { OrganizationsApi } from 'src/entities/organizations/api';
+import { OrganizationsList } from 'src/entities/organizations/model';
 
 initializeApp(BACKEND_CONFIG);
 getAuth();
@@ -26,13 +28,15 @@ getAuth();
 const store = new RootModel({
   account: AccountModel,
   auth: AuthModel,
-  transactions: TransactionsModel,
+  transactions: TransactionsList,
+  organizations: OrganizationsList,
   users: UsersList,
 });
 
 const api = new RootApi(store, {
   auth: AuthApi,
   transactions: TransactionsApi,
+  organizations: OrganizationsApi,
   users: UsersApi,
 });
 
