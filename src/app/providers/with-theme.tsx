@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
-import { RootStore } from 'src/app/models';
+import { RootModel } from 'src/app/models';
 import { ThemeProvider as MUIThemeProvider, createTheme } from '@mui/material';
 import { IChildren, ReactiveApi } from 'src/shared/types';
 import IRootApi = ReactiveApi.IRootApi;
 
 interface IProps extends IChildren {
   api: IRootApi;
-  store: RootStore;
+  store: RootModel;
 }
 
 const theme = createTheme();

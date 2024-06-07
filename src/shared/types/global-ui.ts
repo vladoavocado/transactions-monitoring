@@ -1,4 +1,4 @@
-import { IEntity } from 'src/shared/types';
+import { IEntityModel } from 'src/shared/types';
 
 export interface IGlobalUI {
   isFallbackVisible: boolean;
@@ -6,4 +6,4 @@ export interface IGlobalUI {
   displayFallback(state: boolean): void;
 }
 
-export interface IGlobalConfig extends IEntity<string> {}
+export interface IGlobalConfig extends IEntityModel<string> {}

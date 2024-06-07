@@ -3,13 +3,12 @@ import {
   getFirestore,
   collection,
   getDocs,
-  addDoc,
   doc,
-  updateDoc,
   deleteDoc,
   query,
   where,
   onSnapshot,
+  setDoc,
 } from 'firebase/firestore';
 
 import { ReactiveApi } from 'src/shared/types';
@@ -43,28 +42,14 @@ export class FirebaseDatabase implements IDatabase {
     ) as unknown as T;
   }
 
-  async post<D extends Record<string, any>, T>(
+  async set<D extends Record<string, any>, T>(
     path: string,
     data: D,
+    id: string,
   ): Promise<T> {
-    const docRef = await addDoc(collection(this.db, path), data);
+    const docRef = doc(this.db, path, id);
+    await setDoc(docRef, data, { merge: true });
     return { id: docRef.id, ...data } as unknown as T;
-  }
-
-  async put<D extends Record<string, any>, T>(
-    path: string,
-    data: D,
-  ): Promise<T> {
-    const docRef = doc(this.db, path);
-    await updateDoc(docRef, data);
-    return { id: docRef.id, ...data } as unknown as T;
-  }
-
-  async patch<D extends Record<string, any>, T>(
-    path: string,
-    data: D,
-  ): Promise<T> {
-    return this.put(path, data);
   }
 
   async delete<T>(path: string): Promise<T> {

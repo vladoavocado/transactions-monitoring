@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import type { RootStore } from 'src/app/models';
+import type { RootModel } from 'src/app/models';
 import { Models, Nullable } from 'src/shared';
 
 import IAuthModel = Models.IAuthModel;
@@ -7,7 +7,7 @@ import IAuthModel = Models.IAuthModel;
 export class AuthModel implements IAuthModel {
   refreshToken: Nullable<string> = null;
 
-  constructor(private readonly store: RootStore) {
+  constructor(private readonly store: RootModel) {
     makeAutoObservable<AuthModel, 'root'>(this, {
       root: false,
     });

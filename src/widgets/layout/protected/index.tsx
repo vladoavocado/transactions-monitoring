@@ -1,33 +1,24 @@
 import React from 'react';
-import { IChildren } from 'src/shared/types';
 import { Grid } from '@mui/material';
-import { logger } from 'src/shared/utils';
-import { Stack } from '@mui/system';
-import { NavigationBar } from 'src/widgets/navigation-bar';
+import { TopBar } from 'src/widgets/top-bar';
+import { Navigation } from 'src/widgets/navigation';
+import { Outlet } from 'react-router-dom';
 
-interface IProps extends IChildren {}
-
-export function ProtectedLayout({ children }: IProps) {
-  logger.info('PROTECTED_LAYOUT', children);
-
+export function ProtectedLayout() {
   return (
     <Grid container>
-      <NavigationBar />
-      <Grid container>
-        <Stack
-          sx={{ background: 'primary.white' }}
-          flexDirection='row'
-          alignItems='center'
-          justifyContent='space-between'
-        >
-          {/* <Logo /> */}
-          {/* <Avatar /> */}
-        </Stack>
+      <Grid item container xs={12}>
+        <TopBar />
       </Grid>
-      <Grid container>
-        {/* Aside Navigation */}
-        <Grid />
-        {/* Content */}
+      <Grid item container xs={12}>
+        <Grid item xs={2}>
+          <Navigation />
+        </Grid>
+        <Grid item xs={1} />
+        <Grid item container xs={8} sx={{ mt: 5 }} alignItems='flex-start'>
+          <Outlet />
+        </Grid>
+        <Grid item xs={1} />
         <Grid />
       </Grid>
     </Grid>

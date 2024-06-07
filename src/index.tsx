@@ -7,7 +7,7 @@ import { Router } from 'src/pages';
 // ** Reactive Storage and Api
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { RootStore } from 'src/app/models';
+import { RootModel } from 'src/app/models';
 import { RootApi } from 'src/app/api';
 import { GlobalStyles } from 'src/global-styles';
 import { AccountModel } from 'src/entities/account/model';
@@ -15,27 +15,26 @@ import { AuthModel } from 'src/entities/auth/model';
 import { AuthApi } from 'src/entities/auth/api';
 import { BACKEND_CONFIG } from 'src/configs/env';
 import { logger } from 'src/shared/utils';
+import { TransactionsModel } from 'src/entities/transactions/model';
+import { UsersList } from 'src/entities/users/model';
+import { TransactionsApi } from 'src/entities/transactions/api';
+import { UsersApi } from 'src/entities/users/api';
 
 initializeApp(BACKEND_CONFIG);
 getAuth();
 
-const store = new RootStore([
-  {
-    key: 'account',
-    Model: AccountModel,
-  },
-  {
-    key: 'auth',
-    Model: AuthModel,
-  },
-]);
+const store = new RootModel({
+  account: AccountModel,
+  auth: AuthModel,
+  transactions: TransactionsModel,
+  users: UsersList,
+});
 
-const api = new RootApi(store, [
-  {
-    key: 'auth',
-    Api: AuthApi,
-  },
-]);
+const api = new RootApi(store, {
+  auth: AuthApi,
+  transactions: TransactionsApi,
+  users: UsersApi,
+});
 
 const rootNode = document.querySelector('#root') as HTMLDivElement;
 

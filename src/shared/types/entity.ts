@@ -1,4 +1,4 @@
-export interface IEntity<T> {
+export interface IEntityModel<T> {
   addOrUpdate(id: string, data: T): void;
   toArray(): T[];
   toString(): string;

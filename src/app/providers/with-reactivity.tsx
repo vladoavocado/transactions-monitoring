@@ -1,11 +1,11 @@
 import React, { createContext, ReactNode, useContext, useMemo } from 'react';
-import { RootStore } from 'src/app/models';
+import { RootModel } from 'src/app/models';
 import { IChildren, ReactiveApi } from 'src/shared/types';
 import IRootApi = ReactiveApi.IRootApi;
 
 interface IProps extends IChildren {
   api: IRootApi;
-  store: RootStore;
+  store: RootModel;
 }
 
 interface IResult extends Omit<IProps, 'children'> {}
@@ -13,7 +13,7 @@ interface IResult extends Omit<IProps, 'children'> {}
 const ReactiveContext = createContext({} as IResult);
 ReactiveContext.displayName = 'ReactiveProvider';
 
-export const useStore = (): RootStore => {
+export const useStore = (): RootModel => {
   const { store } = useContext(ReactiveContext);
   return store;
 };

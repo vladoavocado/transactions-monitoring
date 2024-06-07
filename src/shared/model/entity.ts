@@ -7,17 +7,17 @@ import {
   ObservableMap,
   toJS,
 } from 'mobx';
-import { IEntity } from '../types/entity';
+import { IEntityModel } from '../types/entity';
 import { logger } from '../utils';
 
 type PrivateFields = 'byId';
 
 /* eslint-disable no-underscore-dangle */
-export class EntityStore<T> implements IEntity<T> {
+export class EntityModel<T> implements IEntityModel<T> {
   private byId: ObservableMap<string, T> = observable.map({});
 
   constructor() {
-    makeObservable<EntityStore<T>, PrivateFields>(this, {
+    makeObservable<EntityModel<T>, PrivateFields>(this, {
       byId: observable,
       has: action,
       remove: action,
@@ -102,15 +102,15 @@ export class EntityStore<T> implements IEntity<T> {
   }
 
   get keys() {
-    return EntityStore._toArray(this.byId) as string[];
+    return EntityModel._toArray(this.byId) as string[];
   }
 
   get values() {
-    return EntityStore._toArray(this.byId.values()) as T[];
+    return EntityModel._toArray(this.byId.values()) as T[];
   }
 
   get rawValues() {
-    return EntityStore._toArray(this.byId.values(), true) as T[];
+    return EntityModel._toArray(this.byId.values(), true) as T[];
   }
 
   get size() {

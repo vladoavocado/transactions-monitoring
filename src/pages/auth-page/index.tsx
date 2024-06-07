@@ -19,7 +19,7 @@ export function AuthPage() {
   return (
     <Card
       sx={{
-        maxWidth: '400px',
+        maxWidth: '450px',
         width: '100%',
         p: 2,
         borderRadius: 5,

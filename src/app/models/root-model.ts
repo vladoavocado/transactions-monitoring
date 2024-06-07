@@ -5,31 +5,35 @@ import { logger } from 'src/shared/utils';
 import IAccountModel = Models.IAccountModel;
 import IAuthModel = Models.IAuthModel;
 import IRootModel = Models.IRootModel;
+import IUsersModel = Models.IUsersModel;
+import ITransactionsModel = Models.ITransactionsModel;
 
-export class RootStore implements IRootModel {
+export class RootModel implements IRootModel {
   ui = new GlobalUi(this);
 
   account: Nullable<IAccountModel> = null;
 
   auth: Nullable<IAuthModel> = null;
 
-  constructor(
-    models: { key: keyof IRootModel; Model: new (...args: any[]) => any }[],
-  ) {
-    if (!Array.isArray(models)) {
-      throw new TypeError('There is no models provided so far.');
+  users: Nullable<IUsersModel> = null;
+
+  transactions: Nullable<ITransactionsModel> = null;
+
+  constructor(models: Record<keyof IRootModel, new (...args: any[]) => any>) {
+    if (!models) {
+      throw new TypeError(
+        'Cannot create RootStore due to invalid models argument shape.',
+      );
     }
 
-    models.forEach(({ key, Model }) => {
+    Object.entries(models).forEach(([key, Model]) => {
       try {
+        console.log({ Model });
         (this as any)[key] = new Model(this);
       } catch (err) {
         logger.error(
           `The Model: ${Model} cannot be called within new keyword.`,
         );
-      }
-      if (key in this) {
-        (this as any)[key] = new Model();
       }
     });
 

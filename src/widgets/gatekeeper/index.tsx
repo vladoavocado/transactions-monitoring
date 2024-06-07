@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStore } from 'src/app/providers';
+import { useAPI, useStore } from 'src/app/providers';
 import { Navigate, Outlet, useMatch } from 'react-router-dom';
 import { HOME_PATH, ROOT_PATH, SIGN_IN_PATH } from 'src/app/routes';
 import { Fallback } from 'src/shared/ui/Fallback';
@@ -14,9 +14,16 @@ const RootContainer = styled(Box)<BoxProps>(({ theme }) => ({
 }));
 
 export function BaseGatekeeper() {
+  const { users: usersApi } = useAPI();
   const { ui } = useStore();
   const isRootPage = useMatch(ROOT_PATH);
   const { auth } = useStore();
+
+  useEffect(() => {
+    if (auth?.hasToken) {
+      usersApi?.fetch();
+    }
+  }, [auth?.hasToken]);
 
   if (ui.isFallbackVisible) {
     return <Fallback />;

@@ -1,7 +1,6 @@
 import React, { useCallback, useState, MouseEvent } from 'react';
 import { Theme } from '@mui/material/styles';
 import {
-  Avatar,
   Box,
   Fade,
   ListItemIcon,
@@ -11,11 +10,12 @@ import {
 } from '@mui/material';
 import { Stack } from '@mui/system';
 import { Logotype } from 'src/shared/ui/Logotype';
-import { Logout, Person } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import { useAPI } from 'src/app/providers';
 import { Nullable } from 'src/shared';
+import { AccountProfileBadge } from 'src/entities/account/ui/AccountProfileBadge';
 
-export function NavigationBar() {
+export function TopBar() {
   const [anchorEl, setAnchorEl] = useState<Nullable<HTMLElement>>(null);
   const isVisible = Boolean(anchorEl);
   const { auth: authApi } = useAPI();
@@ -59,23 +59,7 @@ export function NavigationBar() {
         >
           Финансовый мониторинг банковских операций
         </Typography>
-        <Stack
-          direction='row'
-          alignItems='center'
-          spacing={1}
-          sx={{ cursor: 'pointer' }}
-          onClick={openContextMenu}
-        >
-          <Avatar variant='circular' color='grey.400'>
-            <Person />
-          </Avatar>
-          <Stack alignItems='flex-start'>
-            <Typography variant='body1'>Иванов И. И.</Typography>
-            <Typography variant='body2' color='grey.500'>
-              Руководитель отдела
-            </Typography>
-          </Stack>
-        </Stack>
+        <AccountProfileBadge onClick={openContextMenu} />
         <Menu
           sx={{ mt: 0.5 }}
           id='fade-menu'

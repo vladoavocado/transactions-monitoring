@@ -27,6 +27,7 @@
     "@mui/lab": "5.0.0-alpha.170",
     "@mui/material": "5.15.19",
     "@mui/styled-engine-sc": "6.0.0-alpha.18",
+    "@mui/x-data-grid": "7.6.1",
     "clsx": "1.2.1",
     "consola": "3.2.3",
     "dayjs": "1.11.10",
@@ -140,13 +141,6 @@
     "webpack-dev-middleware": "7.2.1",
     "webpack-dev-server": "4.15.1",
     "webpack-hot-middleware": "2.26.1"
-  },
-  "resolutions": {
-    "minipass": "4.2.5",
-    "@mui/x-data-grid/@mui/system": "5.4.1",
-    "react-credit-cards/prop-types": "15.7.2",
-    "react-hot-toast/goober/csstype": "3.0.10",
-    "recharts/react-smooth/prop-types": "15.6.0"
   },
   "browserslist": [
     "chrome >= 57",

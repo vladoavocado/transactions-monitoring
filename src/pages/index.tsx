@@ -11,7 +11,7 @@ import {
   SIGN_IN_PATH,
   ROOT_PATH,
   SIGN_UP_PATH,
-  HOME_PATH,
+  TRANSACTIONS_WIZARD_PATH,
 } from 'src/app/routes';
 
 // ** Layouts
@@ -19,7 +19,7 @@ import { ProtectedLayout, PublicLayout } from 'src/widgets/layout';
 import { Gatekeeper } from 'src/widgets/gatekeeper';
 import { AuthPage } from 'src/pages/auth-page';
 import { Error404Page } from 'src/pages/error-404-page';
-import { DashboardPage } from 'src/pages/dashboard-page';
+import { TransactionsPages } from 'src/pages/transactions-pages';
 
 export const router = createBrowserRouter([
   {
@@ -30,8 +30,8 @@ export const router = createBrowserRouter([
         element: <ProtectedLayout />,
         children: [
           {
-            path: HOME_PATH,
-            element: <DashboardPage />,
+            path: TRANSACTIONS_WIZARD_PATH,
+            element: <TransactionsPages />,
           },
         ],
       },

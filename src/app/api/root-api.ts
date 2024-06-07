@@ -5,20 +5,28 @@ import { Models, Nullable, ReactiveApi } from 'src/shared/types';
 import IRootApi = ReactiveApi.IRootApi;
 import IAuthApi = ReactiveApi.IAuthApi;
 import IRootModel = Models.IRootModel;
+import ITransactionsApi = ReactiveApi.ITransactionsApi;
+import IUsersApi = ReactiveApi.IUsersApi;
 
 /* eslint-disable no-underscore-dangle */
 export class RootApi implements IRootApi {
   auth: Nullable<IAuthApi> = null;
 
+  transactions: Nullable<ITransactionsApi> = null;
+
+  users: Nullable<IUsersApi> = null;
+
   constructor(
     store: IRootModel,
-    apis: { key: keyof IRootApi; Api: new (...args: any[]) => any }[],
+    apis: Record<keyof IRootApi, new (...args: any[]) => any>,
   ) {
-    if (!Array.isArray(apis)) {
-      throw new TypeError('There is no models provided so far.');
+    if (!apis) {
+      throw new TypeError(
+        'Cannot create RootApi due to invalid apis argument shape.',
+      );
     }
 
-    apis.forEach(({ key, Api }) => {
+    Object.entries(apis).forEach(([key, Api]) => {
       try {
         (this as any)[key] = new Api(store, this);
       } catch (err) {

@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle, no-useless-catch, require-yield */
 import { action, makeObservable, observable, runInAction } from 'mobx';
-import { RootStore } from 'src/app/models/root-store';
-import { ReactiveApi } from 'src/shared';
+import { Models, ReactiveApi } from 'src/shared';
 import { logger } from 'src/shared/utils';
 
 // ** Types
@@ -11,11 +10,10 @@ import IApiState = ReactiveApi.IApiState;
 import IDatabase = ReactiveApi.IDatabase;
 import IDatabaseQuery = ReactiveApi.IDatabaseQuery;
 import IDatabaseSubscription = ReactiveApi.IDatabaseSubscription;
+import IRootModel = Models.IRootModel;
 
-export abstract class BaseApi<
-  TData extends Record<string, any> | Record<string, any>[],
-  TResult,
-> implements IBaseApi<TData, TResult>, IApiState
+export abstract class BaseApi<TData extends Record<string, any>, TResult>
+  implements IBaseApi<TData, TResult>, IApiState
 {
   protected path: string = '';
 
@@ -33,7 +31,7 @@ export abstract class BaseApi<
 
   constructor(
     protected api: IRootApi,
-    protected store: RootStore,
+    protected store: IRootModel,
     private db: IDatabase,
   ) {
     makeObservable<BaseApi<TData, TResult>, 'api' | 'store' | 'db'>(this, {
@@ -51,12 +49,20 @@ export abstract class BaseApi<
     });
   }
 
-  abstract onUpdate(): void;
+  protected abstract toModel(data: TData): TResult;
+
+  abstract onUpdate(data: TResult | TResult[]): void;
 
   async fetch(query?: IDatabaseQuery) {
     this.isFetching = true;
     try {
-      return this.db.get<TResult>(this.path, query);
+      const data = await this.db.get<TData>(this.path, query);
+
+      if (Array.isArray(data)) {
+        return data.map(item => this.toModel(item));
+      }
+
+      return this.toModel(data);
     } finally {
       runInAction(() => {
         this.isFetching = false;
@@ -64,10 +70,10 @@ export abstract class BaseApi<
     }
   }
 
-  async createOrUpdate(data: TData) {
+  async createOrUpdate(data: TData, uid?: string) {
     this.isUpdating = true;
     try {
-      return await this.db.put<TData, TResult>(this.path, data);
+      return await this.db.set<TData, TResult>(this.path, data, uid);
     } finally {
       runInAction(() => {
         this.isUpdating = false;
@@ -88,7 +94,15 @@ export abstract class BaseApi<
 
   listen() {
     try {
-      return this.db.subscribe<TResult>(this.path, this.onUpdate);
+      return this.db.subscribe<TData | TData[]>(this.path, data => {
+        if (Array.isArray(data)) {
+          const models = data.map(item => this.toModel(item));
+
+          return this.onUpdate(models);
+        }
+
+        return this.onUpdate(this.toModel(data));
+      });
     } catch (err) {
       logger.error(err);
       throw err;

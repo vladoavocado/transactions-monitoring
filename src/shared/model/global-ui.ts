@@ -1,5 +1,5 @@
 import { makeAutoObservable, observable, ObservableMap } from 'mobx';
-import type { RootStore } from 'src/app/models';
+import type { RootModel } from 'src/app/models';
 import { IGlobalUI } from 'src/shared/types/global-ui';
 
 /* eslint-disable no-underscore-dangle */
@@ -10,7 +10,7 @@ export class GlobalUi implements IGlobalUI {
 
   cooldownByVersion: ObservableMap<string, number> = observable.map();
 
-  constructor(private readonly store: RootStore) {
+  constructor(private readonly store: RootModel) {
     this.store = store;
 
     makeAutoObservable<GlobalUi, 'store' | '_forceRefresh'>(this, {

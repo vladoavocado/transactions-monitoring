@@ -1,39 +1,53 @@
-import { makeAutoObservable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 import { Nullable } from 'src/shared';
 import { Models } from 'src/shared/types';
-import { nanoid } from 'nanoid';
 
 import IAccountModel = Models.IAccountModel;
 import IAccountServer = Models.IAccountServer;
+import IRootModel = Models.IRootModel;
 
 export class AccountModel implements IAccountModel {
-  displayName: Nullable<string> = null;
+  id: Nullable<string> = null;
 
-  photoURL: Nullable<string> = null;
-
-  email: Nullable<string> = null;
-
-  phoneNumber: Nullable<string> = null;
-
-  uid: Nullable<string> = null;
-
-  constructor() {
-    makeAutoObservable<AccountModel>(this);
-  }
-
-  parse(user: IAccountServer) {
-    Object.keys(user).forEach(prop => {
-      if (prop in this) {
-        (this as any)[prop] = user[prop as keyof IAccountServer];
-      }
+  constructor(private readonly root: IRootModel) {
+    makeObservable<AccountModel, 'userRef'>(this, {
+      id: observable,
+      userRef: computed,
     });
   }
 
-  clear() {
-    this.displayName = null;
-    this.photoURL = null;
-    this.email = null;
-    this.phoneNumber = null;
-    this.uid = null;
+  parse(user: IAccountServer) {
+    this.id = user.id;
+  }
+
+  reset() {
+    this.id = null;
+  }
+
+  private get userRef() {
+    if (!this.id || this.root.users?.size === 0) {
+      return null;
+    }
+
+    return this.root.users?.find(this.id);
+  }
+
+  get displayName() {
+    return this.userRef?.initials ?? null;
+  }
+
+  get role() {
+    const userRole = this.userRef?.role;
+
+    switch (userRole) {
+      case 1:
+        return 'Руководитель отдела';
+      case 2:
+        return 'Ведущий экономист';
+      case 3:
+        return 'Клиент';
+      default:
+        return null;
+    }
   }
 }

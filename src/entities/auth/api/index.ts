@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { RootStore } from 'src/app/models';
-import { ReactiveApi } from 'src/shared';
+import { RootModel } from 'src/app/models';
+import { Models, ReactiveApi } from 'src/shared';
 import { action, makeAutoObservable, observable } from 'mobx';
 import {
   getAuth,
@@ -11,13 +11,18 @@ import { logger } from 'src/shared/utils';
 
 import IRootApi = ReactiveApi.IRootApi;
 import IAuthApi = ReactiveApi.IAuthApi;
+import { createInitials } from 'src/shared/utils/create-initials';
+import IUser = Models.IUser;
 
 export class AuthApi implements IAuthApi {
   private thirdPartyAuth = getAuth();
 
   isPending: boolean = false;
 
-  constructor(private store: RootStore, private api: IRootApi) {
+  constructor(
+    private readonly store: RootModel,
+    private readonly api: IRootApi,
+  ) {
     makeAutoObservable<
       AuthApi,
       'root' | 'api' | 'token' | 'thirdPartAuth' | '_transitState'
@@ -32,7 +37,9 @@ export class AuthApi implements IAuthApi {
 
     this.thirdPartyAuth.onAuthStateChanged(user => {
       if (user) {
-        this.store.account?.parse(user);
+        this.store.account?.parse({
+          id: user.uid,
+        });
         this.store.auth?.setToken(user.refreshToken);
       }
 
@@ -47,13 +54,16 @@ export class AuthApi implements IAuthApi {
   async registerWithEmailAndPassword(email: string, password: string) {
     try {
       this._transitState('isPending', true);
+
       const { user } = await createUserWithEmailAndPassword(
         this.thirdPartyAuth,
         email,
         password,
       );
 
-      this.store.account?.parse(user);
+      this.store.account?.parse({
+        id: user.uid,
+      });
       this.store.auth?.setToken(user.refreshToken);
     } catch (err) {
       logger.error(err);
@@ -66,14 +76,16 @@ export class AuthApi implements IAuthApi {
   async loginWithEmailAndPassword(email: string, password: string) {
     try {
       this._transitState('isPending', true);
-      const { user } = await signInWithEmailAndPassword(
+      const { user: authUser } = await signInWithEmailAndPassword(
         this.thirdPartyAuth,
         email,
         password,
       );
 
-      this.store.account?.parse(user);
-      this.store.auth?.setToken(user.refreshToken);
+      this.store.account?.parse({
+        id: authUser.uid,
+      });
+      this.store.auth?.setToken(authUser.refreshToken);
     } catch (err) {
       logger.error(err);
       throw err;
@@ -83,14 +95,9 @@ export class AuthApi implements IAuthApi {
   }
 
   async logout() {
-    try {
-      const result = await this.thirdPartyAuth.signOut();
-      console.log({ result });
-    } catch (err) {
-      throw err;
-    } finally {
-      this.store.account?.clear();
+    await this.thirdPartyAuth.signOut().finally(() => {
+      this.store.account?.reset();
       this.store.auth?.resetToken();
-    }
+    });
   }
 }
