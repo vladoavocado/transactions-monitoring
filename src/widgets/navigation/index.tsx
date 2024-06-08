@@ -73,10 +73,8 @@ export function BaseNavigation() {
                     pointerEvents: disabled ? 'none' : 'all',
                     opacity: disabled ? '0.3' : '1',
                     '&.active': {
-                      background: alpha(theme.palette.common.black, 1),
-                      color: theme.palette.getContrastText(
-                        theme.palette.primary.main,
-                      ),
+                      background: '#ef3124',
+                      color: theme.palette.getContrastText('#ef3124'),
                     },
                   }}
                 >

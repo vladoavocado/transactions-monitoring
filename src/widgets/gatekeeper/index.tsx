@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useAPI, useStore } from 'src/app/providers';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
@@ -26,6 +26,7 @@ const getRedirectUrl = () => {
 };
 
 export function BaseGatekeeper() {
+  const { pathname } = useLocation();
   const { users: usersApi } = useAPI();
   const { ui } = useStore();
   const redirectUrl = getRedirectUrl();
@@ -36,6 +37,10 @@ export function BaseGatekeeper() {
       usersApi?.fetch();
     }
   }, [auth?.hasToken]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   if (ui.isFallbackVisible) {
     return <Fallback />;

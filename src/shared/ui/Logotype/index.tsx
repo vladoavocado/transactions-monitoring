@@ -11,7 +11,8 @@ export function Logotype({ variant, ...restProps }: IProps) {
       fontFamily='Merriweather, Roboto, Sans Serif'
       fontWeight='bold'
     >
-      Альфа
+      <span style={{ color: '#ef3124', marginRight: '0.2em' }}>Альфа</span>
+      Банк
     </Typography>
   );
 }
