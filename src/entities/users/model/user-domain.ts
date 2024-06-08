@@ -58,4 +58,8 @@ export class UserDomain implements IUser {
         return null;
     }
   }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName} ${this.patronymic}`;
+  }
 }

@@ -1,23 +1,17 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  Chip,
-  CircularProgress,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { observer } from 'mobx-react-lite';
 import { useAPI } from 'src/app/providers';
 import { Stack } from '@mui/system';
 import { TransactionsActions } from 'src/features/transactions-actions';
 import { useSetActiveTransaction } from 'src/entities/transactions';
-import { columns, useRows } from './hooks';
+import { useColumns, useRows } from './hooks';
 
 export function BaseTransactionsList() {
   const { transactions: transactionsApi } = useAPI();
   const rows = useRows();
+  const columns = useColumns();
 
   useSetActiveTransaction();
 

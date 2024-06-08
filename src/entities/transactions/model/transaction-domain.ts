@@ -18,6 +18,8 @@ export class TransactionDomain implements ITransaction {
 
   employee: Nullable<string> = null;
 
+  receiver: string = '';
+
   status: number = 0;
 
   transferAmount: number = 0;

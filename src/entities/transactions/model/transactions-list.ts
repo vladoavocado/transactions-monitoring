@@ -36,4 +36,16 @@ export class TransactionsList
 
     return Boolean(isAdmin || employeeId === this.root?.account?.id);
   }
+
+  get visible() {
+    const { isAdmin, id } = this.root.account ?? {};
+
+    if (isAdmin) {
+      return this.values;
+    }
+
+    return this.values.filter(transaction =>
+      transaction?.employee?.includes(id ?? ''),
+    );
+  }
 }

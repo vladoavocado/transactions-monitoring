@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Card, CardContent, CardHeader, CircularProgress } from '@mui/material';
+import { Card, CardContent, CircularProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useAPI, useStore } from 'src/app/providers';
 import {

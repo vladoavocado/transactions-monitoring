@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { CardHeader } from '@mui/material';
-import { useStore } from 'src/app/providers';
 import { Models } from 'src/shared';
 import IUser = Models.IUser;
 
@@ -9,13 +8,9 @@ interface IProps {
 }
 
 export function ProfileTitle({ issuer }: IProps) {
-  const title = useMemo(
-    () =>
-      issuer
-        ? `${issuer.lastName} ${issuer.firstName} ${issuer.patronymic}`
-        : null,
-    [issuer],
-  );
+  const title = issuer
+    ? `${issuer.lastName} ${issuer.firstName} ${issuer.patronymic}`
+    : null;
 
   if (!title) {
     return null;

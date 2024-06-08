@@ -23,6 +23,7 @@ export namespace RemoteShapes {
     comment: string;
     issuer: Nullable<string>;
     employee: Nullable<string>;
+    receiver: string;
     transfer_amount: number;
   }
 

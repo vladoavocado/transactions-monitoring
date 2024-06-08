@@ -1,15 +1,19 @@
 import React from 'react';
 import { Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { useAPI } from 'src/app/providers';
+import { useAPI, useStore } from 'src/app/providers';
 import { observer } from 'mobx-react-lite';
 import { IssuerProfile } from 'src/widgets/issuer-profile';
-import { useSetActiveTransaction } from 'src/entities/transactions';
+import {
+  TransactionsListByIssuer,
+  useSetActiveTransaction,
+} from 'src/entities/transactions';
 
 interface IProps {}
 
 export function BaseTransactionInfoPage(props: IProps) {
-  const { transactions: transactionsApi, users: usersApi } = useAPI();
+  const { transactions: transactionsApi } = useAPI();
+  const { transactions } = useStore();
 
   useSetActiveTransaction();
 
@@ -24,7 +28,7 @@ export function BaseTransactionInfoPage(props: IProps) {
     >
       <Stack gap={1}>
         <Typography fontWeight='bold' variant='h4'>
-          Информация о транзакции
+          Информация о транзакции № {transactions?.active?.requestNumber}
         </Typography>
       </Stack>
 
@@ -39,26 +43,11 @@ export function BaseTransactionInfoPage(props: IProps) {
             justifyContent: 'center',
           }}
         >
-          {
-            transactionsApi?.isFetching ? (
-              <CircularProgress size={48} color='primary' thickness={3} />
-            ) : null
-            // <DataGrid
-            //   rows={rows}
-            //   columns={columns}
-            //   rowHeight={30}
-            //   disableColumnSorting={false}
-            //   hideFooterPagination
-            //   disableRowSelectionOnClick
-            //   disableColumnResize
-            //   sortModel={[
-            //     {
-            //       field: 'requestNumber', // The field to sort by
-            //       sort: 'asc', // Sort direction: 'asc' for ascending, 'desc' for descending
-            //     },
-            //   ]}
-            // />
-          }
+          {transactionsApi?.isFetching ? (
+            <CircularProgress size={48} color='primary' thickness={3} />
+          ) : (
+            <TransactionsListByIssuer />
+          )}
         </CardContent>
       </Card>
     </Stack>

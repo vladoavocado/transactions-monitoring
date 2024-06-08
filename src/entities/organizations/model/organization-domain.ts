@@ -26,6 +26,8 @@ export class OrganizationDomain implements IOrganization {
   constructor(data: IOrganizationShape) {
     merge<IOrganizationShape>(data, this);
 
+    console.log({data});
+
     makeAutoObservable(this);
   }
 

@@ -2,15 +2,19 @@ import { useMemo } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { TRANSACTIONS_WIZARD_INFO } from 'src/app/routes';
 import { useAPI, useStore } from 'src/app/providers';
+import { useGetTransactionIssuer } from 'src/entities/transactions';
+import { Models } from 'src/shared';
+import IUser = Models.IUser;
 
 export const useRows = () => {
   const { transactions: transactionsApi } = useAPI();
   const { transactions, users, organizations } = useStore();
+  const getIssuer = useGetTransactionIssuer();
   const navigate = useNavigate();
 
   return useMemo(
     () =>
-      transactions?.values.map(transaction => {
+      transactions?.visible.map(transaction => {
         const {
           id,
           comment,
@@ -22,11 +26,10 @@ export const useRows = () => {
           employee,
         } = transaction;
 
-        const [, issuerId] = issuer?.split('/') || [null, null];
-        const [, employeeId] = employee?.split('/') || [null, null];
-        const issuerData =
-          users?.find(issuerId ?? '') || organizations?.find(issuerId ?? '');
-        const employeeData = users?.find(employeeId ?? '');
+        const { data: issuerData } = getIssuer(issuer ?? '');
+        const { data: employeeData } = getIssuer(employee ?? '') as {
+          data: IUser;
+        };
 
         return {
           id,

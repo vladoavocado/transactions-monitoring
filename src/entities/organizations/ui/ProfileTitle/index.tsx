@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { CardHeader, Typography } from '@mui/material';
 import { Models } from 'src/shared';
 import IOrganization = Models.IOrganization;
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export function ProfileTitle({ issuer }: IProps) {
-  const title = useMemo(() => (issuer ? issuer.name : null), [issuer]);
+  const title = issuer ? issuer.name : null;
 
   if (!title) {
     return null;

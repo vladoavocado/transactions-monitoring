@@ -31,6 +31,7 @@ export namespace Models {
       IDomainMethods<IUser> {
     id: string;
     name: string;
+    fullName: string;
     type: string;
     readableRole: Nullable<any>;
   }
@@ -64,6 +65,7 @@ export namespace Models {
 
   export interface ITransactionsModel extends IEntityModel<ITransaction> {
     active: Nullable<ITransaction>;
+    visible: ITransaction[];
     setActive(id: Nullable<string>): void;
     canEdit(id: ITransaction): boolean;
   }
