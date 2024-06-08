@@ -19,7 +19,7 @@ export namespace RemoteShapes {
   export interface ITransactionShape {
     request_number: number;
     check_code: number;
-    status: number;
+    status: Nullable<number>;
     comment: string;
     issuer: Nullable<string>;
     employee: Nullable<string>;

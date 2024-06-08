@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import {
   Card,
   CardContent,
@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { observer } from 'mobx-react-lite';
-import { useAPI, useStore } from 'src/app/providers';
+import { useAPI } from 'src/app/providers';
 import { Stack } from '@mui/system';
-import { TransactionsActions } from 'src/features/transactions-actions/ui';
+import { TransactionsActions } from 'src/features/transactions-actions';
 import { useSetActiveTransaction } from 'src/entities/transactions';
 import { columns, useRows } from './hooks';
 

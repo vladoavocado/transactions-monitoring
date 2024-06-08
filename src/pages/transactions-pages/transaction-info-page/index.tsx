@@ -1,8 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { TransactionsActions } from 'src/features/transactions-actions/ui';
-import { useAPI, useStore } from 'src/app/providers';
+import { useAPI } from 'src/app/providers';
 import { observer } from 'mobx-react-lite';
 import { IssuerProfile } from 'src/widgets/issuer-profile';
 import { useSetActiveTransaction } from 'src/entities/transactions';

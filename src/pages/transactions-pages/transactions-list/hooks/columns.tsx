@@ -55,16 +55,22 @@ export const columns: GridColDef<any>[] = [
     width: 150,
     sortable: true,
     renderCell: params => {
-      const isPassed = params.value > 0;
+      const hasStatus = typeof params.value === 'number';
+      const isStatusPositive = params.value > 0;
 
-      return (
-        <Chip
-          size='small'
-          variant='filled'
-          color={isPassed ? 'success' : 'error'}
-          label={isPassed ? 'Проведено' : 'Отказ'}
-        />
-      );
+      const color = hasStatus
+        ? isStatusPositive
+          ? 'success'
+          : 'error'
+        : 'default';
+
+      const label = hasStatus
+        ? isStatusPositive
+          ? 'Проведено'
+          : 'Отказано'
+        : 'Не установлено';
+
+      return <Chip size='small' variant='filled' color={color} label={label} />;
     },
   },
   {
@@ -89,7 +95,7 @@ export const columns: GridColDef<any>[] = [
               size='small'
               color='success'
               onClick={() => {
-                onStatusChange(true);
+                onStatusChange(1);
               }}
             >
               <PriceCheck />
@@ -101,7 +107,7 @@ export const columns: GridColDef<any>[] = [
               size='small'
               color='error'
               onClick={() => {
-                onStatusChange(false);
+                onStatusChange(0);
               }}
             >
               <DoDisturb />
