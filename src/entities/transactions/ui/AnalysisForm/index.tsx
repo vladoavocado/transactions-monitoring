@@ -22,9 +22,10 @@ import { observer } from 'mobx-react-lite';
 
 interface IProps {
   issuer?: IUser | IOrganization;
+  readonly?: boolean;
 }
 
-export function BaseAnalysisForm({ issuer }: IProps) {
+export function BaseAnalysisForm({ readonly, issuer }: IProps) {
   const { transactions: transactionsApi } = useAPI();
   const { transactions } = useStore();
   const { active } = transactions || {};
@@ -43,7 +44,7 @@ export function BaseAnalysisForm({ issuer }: IProps) {
     ),
   );
 
-  const { control, handleSubmit, reset, formState } = useForm({
+  const { control, handleSubmit, formState } = useForm({
     resolver: yupResolver(rules),
     defaultValues: {
       ...transactions?.active?.checks,
@@ -137,29 +138,31 @@ export function BaseAnalysisForm({ issuer }: IProps) {
                             flexDirection: { xs: 'column', lg: 'row' },
                           }}
                         >
-                          <ToggleBox field={field} />
+                          <ToggleBox readonly={readonly} field={field} />
                           <Stack flexDirection='row' gap={2}>
-                            <Button
-                              size='small'
-                              component='label'
-                              role={undefined}
-                              tabIndex={-1}
-                              variant='outlined'
-                              startIcon={<FileUpload />}
-                            >
-                              Прикрепить документ
-                              <HiddenInput
-                                type='file'
-                                data-name={name}
-                                onChange={e => {
-                                  const file = e?.target?.files?.[0];
+                            {!readonly && (
+                              <Button
+                                size='small'
+                                component='label'
+                                role={undefined}
+                                tabIndex={-1}
+                                variant='outlined'
+                                startIcon={<FileUpload />}
+                              >
+                                Прикрепить документ
+                                <HiddenInput
+                                  type='file'
+                                  data-name={name}
+                                  onChange={e => {
+                                    const file = e?.target?.files?.[0];
 
-                                  if (file) {
-                                    onAddFile(name, file.name);
-                                  }
-                                }}
-                              />
-                            </Button>
+                                    if (file) {
+                                      onAddFile(name, file.name);
+                                    }
+                                  }}
+                                />
+                              </Button>
+                            )}
                             {files[name] && (
                               <Chip
                                 label={files[name]}
@@ -191,7 +194,13 @@ export function BaseAnalysisForm({ issuer }: IProps) {
                     <CardItemData
                       title={label ?? ''}
                       value={
-                        <TextField {...field} fullWidth multiline rows={4} />
+                        <TextField
+                          {...field}
+                          disabled={readonly}
+                          fullWidth
+                          multiline
+                          rows={4}
+                        />
                       }
                       sx={{ width: '100%' }}
                     />
@@ -200,17 +209,19 @@ export function BaseAnalysisForm({ issuer }: IProps) {
               );
           }
         })}
-        <LoadingButton
-          loading={isLoading}
-          type='submit'
-          size='large'
-          color='primary'
-          variant='outlined'
-          sx={{ mr: 'auto' }}
-          disabled={!isTouched && !formState.isDirty}
-        >
-          Сохранить
-        </LoadingButton>
+        {!readonly && (
+          <LoadingButton
+            loading={isLoading}
+            type='submit'
+            size='large'
+            color='primary'
+            variant='outlined'
+            sx={{ mr: 'auto' }}
+            disabled={!isTouched && !formState.isDirty}
+          >
+            Сохранить
+          </LoadingButton>
+        )}
       </Stack>
     </form>
   );

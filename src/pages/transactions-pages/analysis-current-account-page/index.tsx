@@ -9,7 +9,12 @@ import { useAPI, useStore } from 'src/app/providers';
 import { observer } from 'mobx-react-lite';
 import { Skeleton } from '@mui/lab';
 
-export function BaseAnalysisCurrentAccountPage() {
+interface IProps {
+  readonly?: boolean;
+  title?: string;
+}
+
+export function BaseAnalysisCurrentAccountPage({ readonly, title }: IProps) {
   const { transactions } = useStore();
   const { transactions: transactionsApi } = useAPI();
 
@@ -21,21 +26,25 @@ export function BaseAnalysisCurrentAccountPage() {
         display: 'grid',
         alignItems: 'flex-start',
         gridTemplateRows: 'repeat(2, min-content)',
+        gridTemplateColumns: '1fr',
+        maxWidth: '70em',
+        justifyContent: 'stretch',
         gap: 2.5,
       }}
     >
       <Stack gap={1}>
         {transactionsApi?.isFetching ? (
-          <Skeleton height='5.5em' width='55em' />
+          <Skeleton height='5.5em' width='70em' />
         ) : (
           <Typography fontWeight='bold' variant='h4'>
-            Транзакция № {transactions?.active?.requestNumber} - Анализ текущего
-            счёта клиента
+            {title ||
+              `Транзакция № ${transactions?.active?.requestNumber} - Анализ текущего
+            счёта клиента`}
           </Typography>
         )}
       </Stack>
 
-      <TransactionsAccountAnalysis />
+      <TransactionsAccountAnalysis readonly={readonly} />
     </Stack>
   );
 }

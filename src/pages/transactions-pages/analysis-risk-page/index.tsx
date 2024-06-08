@@ -9,7 +9,12 @@ import { useAPI, useStore } from 'src/app/providers';
 import { observer } from 'mobx-react-lite';
 import { Skeleton } from '@mui/lab';
 
-export function BaseAnalysisRiskPage() {
+interface IProps {
+  readonly?: boolean;
+  title?: string;
+}
+
+export function BaseAnalysisRiskPage({ readonly, title }: IProps) {
   const { transactions } = useStore();
   const { transactions: transactionsApi } = useAPI();
 
@@ -21,20 +26,24 @@ export function BaseAnalysisRiskPage() {
         display: 'grid',
         alignItems: 'flex-start',
         gridTemplateRows: 'repeat(2, min-content)',
+        gridTemplateColumns: '1fr',
+        maxWidth: '70em',
+        justifyContent: 'stretch',
         gap: 2.5,
       }}
     >
       <Stack gap={1}>
         {transactionsApi?.isFetching ? (
-          <Skeleton height='5.5em' width='55em' />
+          <Skeleton height='5.5em' width='70em' />
         ) : (
           <Typography fontWeight='bold' variant='h4'>
-            Транзакция № {transactions?.active?.requestNumber} - Риск Анализ
+            {title ||
+              `Транзакция № ${transactions?.active?.requestNumber} - Риск Анализ`}
           </Typography>
         )}
       </Stack>
 
-      <TransactionsRiskAnalysis />
+      <TransactionsRiskAnalysis readonly={readonly} />
     </Stack>
   );
 }

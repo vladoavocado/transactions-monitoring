@@ -12,7 +12,7 @@ import { ChatWithClientPage } from 'src/pages/chat-with-client-page';
 import { AnalysisRiskPage } from './analysis-risk-page';
 import { AnalysisCurrentAccountPage } from './analysis-current-account-page';
 import { TransactionsList } from './transactions-list';
-import { TransactionsReportPage } from './transactions-report-page';
+import { TransactionReportPage } from './transaction-report-page';
 import { TransactionInfoPage } from './transaction-info-page';
 
 export function TransactionsPages() {
@@ -44,7 +44,7 @@ export function TransactionsPages() {
       />
       <Route
         path={TRANSACTIONS_WIZARD_REPORT}
-        element={<TransactionsReportPage />}
+        element={<TransactionReportPage />}
       />
       <Route path={TRANSACTIONS_WIZARD_CHAT} element={<ChatWithClientPage />} />
     </Routes>

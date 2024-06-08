@@ -2,10 +2,11 @@ import { FormControlLabel, Stack, Switch, Typography } from '@mui/material';
 import React from 'react';
 
 interface IProps {
+  readonly?: boolean;
   field: any;
 }
 
-export function ToggleBox({ field }: IProps) {
+export function ToggleBox({ readonly, field }: IProps) {
   const { ref, ...restFieldProps } = field;
   return (
     <Stack flexDirection='row' gap={2} alignItems='center'>
@@ -15,6 +16,8 @@ export function ToggleBox({ field }: IProps) {
         control={
           <Switch
             {...restFieldProps}
+            readOnly={readonly}
+            disabled={readonly}
             inputRef={ref}
             checked={!!field.value}
             color='primary'

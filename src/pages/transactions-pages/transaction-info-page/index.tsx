@@ -22,11 +22,14 @@ export function BaseTransactionInfoPage() {
         display: 'grid',
         alignItems: 'flex-start',
         gridTemplateRows: 'repeat(2, min-content)',
+        gridTemplateColumns: '1fr',
+        maxWidth: '70em',
+        justifyContent: 'stretch',
         gap: 2.5,
       }}
     >
       {transactionsApi?.isFetching ? (
-        <Skeleton height='5.5em' width='55em' />
+        <Skeleton height='5.5em' width='100%' />
       ) : (
         <Typography fontWeight='bold' variant='h4'>
           Информация о транзакции № {transactions?.active?.requestNumber}

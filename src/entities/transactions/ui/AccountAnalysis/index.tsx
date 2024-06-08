@@ -5,14 +5,18 @@ import { useStore } from 'src/app/providers';
 import { AnalysisForm } from 'src/entities/transactions/ui/AnalysisForm';
 import { useIssuerData } from 'src/entities/transactions/hooks';
 
-export function BaseAccountAnalysis() {
+interface IProps {
+  readonly?: boolean;
+}
+
+export function BaseAccountAnalysis({ readonly }: IProps) {
   const { transactions } = useStore();
   const { active } = transactions || {};
   const getIssuer = useIssuerData();
   const { data: issuer } = getIssuer(active?.issuer ?? '');
 
   return (
-    <Card sx={{ p: 2, borderRadius: 2, maxWidth: '65em' }}>
+    <Card sx={{ p: 2, borderRadius: 2 }}>
       <CardContent
         sx={{
           minHeight: '5em',
@@ -30,7 +34,7 @@ export function BaseAccountAnalysis() {
             thickness={3}
           />
         ) : (
-          <AnalysisForm issuer={issuer} />
+          <AnalysisForm readonly={readonly} issuer={issuer} />
         )}
       </CardContent>
     </Card>

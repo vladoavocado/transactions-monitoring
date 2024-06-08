@@ -18,9 +18,10 @@ import { precisionRound } from 'src/shared/utils/precision-round';
 
 interface IProps {
   issuer?: IUser | IOrganization;
+  readonly?: boolean;
 }
 
-export function BaseRiskAnalysisForm({ issuer }: IProps) {
+export function BaseRiskAnalysisForm({ issuer, readonly }: IProps) {
   const { transactions: transactionsApi } = useAPI();
   const { transactions } = useStore();
   const { active } = transactions || {};
@@ -37,7 +38,11 @@ export function BaseRiskAnalysisForm({ issuer }: IProps) {
 
   const onSubmit = useCallback(
     async (data: any) => {
-      const { title, riskConsequence, riskProbability } = data;
+      const {
+        title,
+        riskConsequence: dataRiskConsequence,
+        riskProbability: dataRiskProbability,
+      } = data;
 
       try {
         toast.remove();
@@ -46,8 +51,8 @@ export function BaseRiskAnalysisForm({ issuer }: IProps) {
           {
             risks: {
               title,
-              risk_consequence: riskConsequence,
-              risk_probability: riskProbability,
+              risk_consequence: dataRiskConsequence,
+              risk_probability: dataRiskProbability,
             },
           },
           active?.id,
@@ -94,6 +99,7 @@ export function BaseRiskAnalysisForm({ issuer }: IProps) {
                   <TextField
                     {...field}
                     type={type}
+                    disabled={readonly}
                     inputProps={
                       type === 'number'
                         ? { min: 0, max: 1, step: 0.1 }
@@ -117,17 +123,19 @@ export function BaseRiskAnalysisForm({ issuer }: IProps) {
           }
           sx={{ width: '100%' }}
         />
-        <LoadingButton
-          loading={transactionsApi?.isUpdating}
-          type='submit'
-          size='large'
-          color='primary'
-          variant='outlined'
-          sx={{ mr: 'auto' }}
-          disabled={!formState.isDirty}
-        >
-          Сохранить
-        </LoadingButton>
+        {!readonly && (
+          <LoadingButton
+            loading={transactionsApi?.isUpdating}
+            type='submit'
+            size='large'
+            color='primary'
+            variant='outlined'
+            sx={{ mr: 'auto' }}
+            disabled={!formState.isDirty}
+          >
+            Сохранить
+          </LoadingButton>
+        )}
       </Stack>
     </form>
   );

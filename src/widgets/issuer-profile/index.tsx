@@ -35,7 +35,7 @@ export function BaseIssuerProfile() {
   const shouldDisplayUser = hasIssuer && !isOrganization;
 
   return (
-    <Card sx={{ p: 2, borderRadius: 2, maxWidth: '65em' }}>
+    <Card sx={{ p: 2, borderRadius: 2 }}>
       {shouldDisplayUser && <UserTitle issuer={issuer as IUser} />}
       {shouldDisplayOrganization && (
         <OrganizationTitle issuer={issuer as IOrganization} />

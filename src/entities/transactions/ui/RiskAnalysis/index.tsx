@@ -5,14 +5,18 @@ import { useStore } from 'src/app/providers';
 import { useIssuerData } from 'src/entities/transactions/hooks';
 import { RiskAnalysisForm } from '../RiskAnalysisForm';
 
-export function BaseRiskAnalysis() {
+interface IProps {
+  readonly?: boolean;
+}
+
+export function BaseRiskAnalysis({ readonly }: IProps) {
   const { transactions } = useStore();
   const { active } = transactions || {};
   const getIssuer = useIssuerData();
   const { data: issuer } = getIssuer(active?.issuer ?? '');
 
   return (
-    <Card sx={{ p: 2, borderRadius: 2, maxWidth: '65em' }}>
+    <Card sx={{ p: 2, borderRadius: 2 }}>
       <CardContent
         sx={{
           minHeight: '5em',
@@ -30,7 +34,7 @@ export function BaseRiskAnalysis() {
             thickness={3}
           />
         ) : (
-          <RiskAnalysisForm issuer={issuer} />
+          <RiskAnalysisForm readonly={readonly} issuer={issuer} />
         )}
       </CardContent>
     </Card>
