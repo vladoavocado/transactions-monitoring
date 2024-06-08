@@ -37,6 +37,11 @@ export namespace RemoteShapes {
       financial_ops_match: string;
       suspicious_counterparties: string;
     };
+    risks: {
+      title: string;
+      risk_probability: number;
+      risk_consequence: number;
+    };
   }
 
   export interface IOrganizationShape {

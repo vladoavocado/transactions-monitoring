@@ -6,6 +6,7 @@ import ITransaction = Models.ITransaction;
 import ITransactionShape = RemoteShapes.ITransactionShape;
 import ITransactionChecks = Models.ITransactionChecks;
 import ITransactionFiles = Models.ITransactionFiles;
+import ITransactionRisks = Models.ITransactionRisks;
 
 export class TransactionDomain implements ITransaction {
   id: string = '';
@@ -29,6 +30,8 @@ export class TransactionDomain implements ITransaction {
   checks: ITransactionChecks = {} as ITransactionChecks;
 
   files: ITransactionFiles = {} as ITransactionFiles;
+
+  risks: ITransactionRisks = {} as ITransactionRisks;
 
   constructor(data: ITransactionShape) {
     merge<ITransactionShape>(data, this);

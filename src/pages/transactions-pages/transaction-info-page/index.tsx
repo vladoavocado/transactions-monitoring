@@ -10,9 +10,7 @@ import {
 } from 'src/entities/transactions';
 import { Skeleton } from '@mui/lab';
 
-interface IProps {}
-
-export function BaseTransactionInfoPage(props: IProps) {
+export function BaseTransactionInfoPage() {
   const { transactions: transactionsApi } = useAPI();
   const { transactions } = useStore();
 

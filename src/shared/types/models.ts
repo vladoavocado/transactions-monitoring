@@ -44,6 +44,10 @@ export namespace Models {
     ITransactionShape['files']
   >;
 
+  export type ITransactionRisks = ConvertSnakeToCamelCase<
+    ITransactionShape['risks']
+  >;
+
   export interface ITransaction
     extends ConvertSnakeToCamelCase<
         Omit<ITransactionShape, 'checks' | 'files'>
@@ -51,6 +55,7 @@ export namespace Models {
       IDomainMethods<ITransaction> {
     id: string;
     checks: ITransactionChecks;
+    risks: ITransactionRisks;
     files: ITransactionFiles;
   }
 

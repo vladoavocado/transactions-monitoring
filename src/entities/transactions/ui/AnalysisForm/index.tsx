@@ -31,6 +31,7 @@ export function BaseAnalysisForm({ issuer }: IProps) {
   const inputs = useAnalysisFormInputs();
   const rules = useAnalysisFormRules();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [files, setFiles] = useState<{ [key in AnalysisFormInputs]: string }>(
     inputs.reduce(
@@ -63,6 +64,8 @@ export function BaseAnalysisForm({ issuer }: IProps) {
       const { comment, ...checks } = data;
 
       try {
+        setIsLoading(true);
+
         await new Promise(resolve => {
           setTimeout(() => {
             resolve({});
@@ -95,6 +98,8 @@ export function BaseAnalysisForm({ issuer }: IProps) {
           'Не удалось сохранить данные. Пожалуйста, попробуйте снова',
           { duration: 5000 },
         );
+      } finally {
+        setIsLoading(false);
       }
     },
     [files, active?.id],
@@ -196,7 +201,7 @@ export function BaseAnalysisForm({ issuer }: IProps) {
           }
         })}
         <LoadingButton
-          loading={transactionsApi?.isUpdating}
+          loading={isLoading}
           type='submit'
           size='large'
           color='primary'

@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, CardContent, CircularProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/app/providers';
-import { AnalysisForm } from 'src/entities/transactions/ui/AnalysisForm';
 import { useIssuerData } from 'src/entities/transactions/hooks';
+import { RiskAnalysisForm } from '../RiskAnalysisForm';
 
-export function BaseAccountAnalysis() {
+export function BaseRiskAnalysis() {
   const { transactions } = useStore();
   const { active } = transactions || {};
   const getIssuer = useIssuerData();
@@ -30,11 +30,11 @@ export function BaseAccountAnalysis() {
             thickness={3}
           />
         ) : (
-          <AnalysisForm issuer={issuer} />
+          <RiskAnalysisForm issuer={issuer} />
         )}
       </CardContent>
     </Card>
   );
 }
 
-export const AccountAnalysis = observer(BaseAccountAnalysis);
+export const RiskAnalysis = observer(BaseRiskAnalysis);

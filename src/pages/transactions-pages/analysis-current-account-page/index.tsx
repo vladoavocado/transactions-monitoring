@@ -2,16 +2,14 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import {
-  TransactionsAccountAnalysisForm,
+  TransactionsAccountAnalysis,
   useSetActiveTransaction,
 } from 'src/entities/transactions';
 import { useAPI, useStore } from 'src/app/providers';
 import { observer } from 'mobx-react-lite';
 import { Skeleton } from '@mui/lab';
 
-interface IProps {}
-
-export function BaseAnalysisCurrentAccountPage(props: IProps) {
+export function BaseAnalysisCurrentAccountPage() {
   const { transactions } = useStore();
   const { transactions: transactionsApi } = useAPI();
 
@@ -37,7 +35,7 @@ export function BaseAnalysisCurrentAccountPage(props: IProps) {
         )}
       </Stack>
 
-      <TransactionsAccountAnalysisForm />
+      <TransactionsAccountAnalysis />
     </Stack>
   );
 }
