@@ -1,4 +1,5 @@
 import { Nullable } from 'src/shared';
+import { Timestamp } from 'firebase/firestore';
 
 export namespace RemoteShapes {
   export interface IUserShape {
@@ -11,6 +12,7 @@ export namespace RemoteShapes {
     job_link: Nullable<string>;
     job_title: Nullable<string>;
     passport_info: Nullable<string>;
+    account_opening_date: Nullable<Timestamp>;
     role: number;
   }
 
@@ -25,7 +27,7 @@ export namespace RemoteShapes {
   }
 
   export interface IOrganizationShape {
-    account_opening_date: string;
+    account_opening_date: Nullable<Timestamp>;
     branch: string;
     company: string;
     country_of_registration: string;

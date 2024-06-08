@@ -36,24 +36,13 @@ export class AccountModel implements IAccountModel {
     return this.userRef?.initials ?? null;
   }
 
-  get role() {
-    const userRole = this.userRef?.role;
-
-    switch (userRole) {
-      case 1:
-        return 'Руководитель отдела';
-      case 2:
-        return 'Ведущий экономист';
-      case 3:
-        return 'Клиент';
-      default:
-        return null;
-    }
-  }
-
   get isAdmin() {
     const userRole = this.userRef?.role;
 
     return userRole === 1;
+  }
+
+  get role() {
+    return this?.userRef?.readableRole ?? 'Клиент';
   }
 }

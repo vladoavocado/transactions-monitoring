@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import {
   TRANSACTIONS_WIZARD_CHAT,
   TRANSACTIONS_WIZARD_ACCOUNT_ANALYSIS,
@@ -7,7 +7,7 @@ import {
   TRANSACTIONS_WIZARD_INFO,
   TRANSACTIONS_WIZARD_REPORT,
 } from 'src/app/routes';
-import { useAPI } from 'src/app/providers';
+import { useAPI, useStore } from 'src/app/providers';
 import { ChatWithClientPage } from 'src/pages/chat-with-client-page';
 import { AnalysisRiskPage } from './analysis-risk-page';
 import { AnalysisCurrentAccountPage } from './analysis-current-account-page';
@@ -16,11 +16,12 @@ import { TransactionsReportPage } from './transactions-report-page';
 import { TransactionInfoPage } from './transaction-info-page';
 
 export function TransactionsPages() {
-  const { transactions, organizations } = useAPI();
+  const { transactions: transactionsApi, organizations: organizationsApi } =
+    useAPI();
 
   useEffect(() => {
     const getAllRequiredData = async () => {
-      await Promise.all([transactions?.fetch(), organizations?.fetch()]);
+      await Promise.all([transactionsApi?.fetch(), organizationsApi?.fetch()]);
     };
 
     getAllRequiredData();

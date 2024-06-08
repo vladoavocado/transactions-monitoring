@@ -31,6 +31,8 @@ export namespace Models {
       IDomainMethods<IUser> {
     id: string;
     name: string;
+    type: string;
+    readableRole: Nullable<any>;
   }
 
   export interface ITransaction
@@ -44,6 +46,7 @@ export namespace Models {
       IDomainMethods<IOrganization> {
     id: string;
     name: string;
+    type: string;
   }
 
   export interface IAccountModel extends IAccount {
