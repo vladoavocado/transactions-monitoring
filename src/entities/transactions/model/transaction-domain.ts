@@ -1,6 +1,6 @@
 import { Models, Nullable, RemoteShapes } from 'src/shared/types';
 import { merge } from 'src/shared/utils/merge';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, toJS } from 'mobx';
 
 import ITransaction = Models.ITransaction;
 import ITransactionShape = RemoteShapes.ITransactionShape;

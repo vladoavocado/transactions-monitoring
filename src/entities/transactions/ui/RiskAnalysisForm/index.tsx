@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Models } from 'src/shared';
 import { Stack, TextField } from '@mui/material';
 import {
@@ -12,9 +12,9 @@ import { LoadingButton } from '@mui/lab';
 import { useAPI, useStore } from 'src/app/providers';
 import toast from 'react-hot-toast';
 import { observer } from 'mobx-react-lite';
+import { precisionRound } from 'src/shared/utils/precision-round';
 import IUser = Models.IUser;
 import IOrganization = Models.IOrganization;
-import { precisionRound } from 'src/shared/utils/precision-round';
 
 interface IProps {
   issuer?: IUser | IOrganization;
@@ -28,9 +28,13 @@ export function BaseRiskAnalysisForm({ issuer, readonly }: IProps) {
   const inputs = useAnalysisFormInputs();
   const rules = useAnalysisFormRules();
 
-  const { control, handleSubmit, formState, watch } = useForm({
+  const { control, handleSubmit, formState, watch, reset } = useForm({
     resolver: yupResolver(rules),
-    defaultValues: transactions?.active?.risks,
+    defaultValues: {
+      riskConsequence: active?.risks?.riskConsequence || 0,
+      riskProbability: active?.risks?.riskProbability || 0,
+      title: active?.risks?.title || '',
+    },
   });
 
   const riskProbability = watch('riskProbability');
@@ -60,7 +64,6 @@ export function BaseRiskAnalysisForm({ issuer, readonly }: IProps) {
 
         toast.success('Сохранено!', { duration: 5000 });
       } catch (err) {
-        console.log({ err });
         toast.error(
           'Не удалось сохранить данные. Пожалуйста, попробуйте снова',
           { duration: 5000 },
@@ -87,7 +90,7 @@ export function BaseRiskAnalysisForm({ issuer, readonly }: IProps) {
         width='100%'
         gap={3}
       >
-        {Object.values(inputs).map(({ name, type, label }) => (
+        {Object.values(inputs).map(({ name, type, label, inputProps }) => (
           <Controller
             key={name}
             name={name}
@@ -98,13 +101,10 @@ export function BaseRiskAnalysisForm({ issuer, readonly }: IProps) {
                 value={
                   <TextField
                     {...field}
-                    type={type}
                     disabled={readonly}
-                    inputProps={
-                      type === 'number'
-                        ? { min: 0, max: 1, step: 0.1 }
-                        : undefined
-                    }
+                    value={field.value ?? active?.risks?.[name]}
+                    type={type}
+                    inputProps={inputProps || undefined}
                   />
                 }
                 sx={{ width: '100%' }}

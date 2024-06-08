@@ -14,6 +14,7 @@ import { LoadingButton } from '@mui/lab';
 import { Link } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'src/app/routes';
 import { observer } from 'mobx-react-lite';
+import { useOTP } from 'src/entities/account/hooks';
 import { rules } from './validations';
 import { useAction, useInputs } from './hooks';
 
@@ -64,6 +65,10 @@ export function BaseSignUp() {
     resolver: yupResolver(rules),
   });
 
+  const { showModal } = useOTP({
+    onClick: handleSubmit(signUp),
+  });
+
   useEffect(
     () => () => {
       reset();
@@ -72,7 +77,7 @@ export function BaseSignUp() {
   );
 
   return (
-    <form noValidate onSubmit={handleSubmit(signUp)}>
+    <form>
       <Grid container spacing={4}>
         <Grid item container>
           {inputs.map(inputOrGroup => {
@@ -113,11 +118,11 @@ export function BaseSignUp() {
         <Grid item container spacing={3}>
           <Grid item xs={12}>
             <LoadingButton
-              type='submit'
               size='large'
               fullWidth
               variant='contained'
               loading={isPending}
+              onClick={showModal}
             >
               Зарегистрироваться
             </LoadingButton>

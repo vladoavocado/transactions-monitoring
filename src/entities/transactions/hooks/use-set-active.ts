@@ -6,12 +6,13 @@ export const useSetActive = (customTransactionId?: string) => {
   const { transactionId: transactionIdFromParams } = useParams();
   const { transactions: transactionsApi, users: usersApi } = useAPI();
   const { transactions } = useStore();
+  const { active } = transactions || {};
   const transactionId = customTransactionId || transactionIdFromParams;
+  const isSame = active?.id === transactionId;
 
   useEffect(() => {
-    if (!transactionsApi?.isFetching && !usersApi?.isFetching) {
+    if (!transactionsApi?.isFetching && !usersApi?.isFetching && !isSame) {
       transactions?.setActive(transactionId ?? null);
-      console.log({ active: transactions?.active });
     }
   }, [transactionId, transactionsApi?.isFetching, usersApi?.isFetching]);
 };

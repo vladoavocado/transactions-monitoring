@@ -14,6 +14,7 @@ import { useAPI } from 'src/app/providers';
 import { useForm } from 'react-hook-form';
 import { SIGN_UP_PATH } from 'src/app/routes';
 import { observer } from 'mobx-react-lite';
+import { useOTP } from 'src/entities/account/hooks/use-otp';
 import { useInputs, useAction } from './hooks';
 import { rules } from './validations';
 
@@ -22,9 +23,13 @@ export function BaseSignIn() {
   const { auth: authApi } = useAPI();
   const { isPending } = authApi || { isPending: false };
   const inputs = useInputs();
-
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, watch } = useForm({
     resolver: yupResolver(rules),
+  });
+  const email = watch('email');
+
+  const { showModal } = useOTP({
+    onClick: handleSubmit(signIn),
   });
 
   useEffect(
@@ -35,7 +40,7 @@ export function BaseSignIn() {
   );
 
   return (
-    <form onSubmit={handleSubmit(signIn)}>
+    <form>
       <Grid container spacing={4}>
         <Grid item container>
           {inputs.map(({ id, name, type, label, Icon }) => (
@@ -68,11 +73,12 @@ export function BaseSignIn() {
         <Grid item container spacing={3}>
           <Grid item xs={12}>
             <LoadingButton
-              type='submit'
+              onClick={showModal}
               size='large'
               fullWidth
               variant='contained'
               loading={isPending}
+              disabled={!email}
             >
               Войти
             </LoadingButton>

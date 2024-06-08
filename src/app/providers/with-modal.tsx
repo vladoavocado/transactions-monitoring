@@ -212,19 +212,24 @@ export const withModal = (Component: (props: any) => ReactNode) =>
           {...options}
           open={isVisible}
           onClose={blur ? undefined : onClose}
+          sx={{
+            '& .MuiPaper-root': {
+              borderRadius: 4,
+            },
+          }}
         >
-          <Stack sx={{ p: 8 }} gap={6}>
+          <Stack sx={{ p: 4 }} gap={4}>
             <Stack gap={4}>
               {content?.icon && (
                 <Stack alignItems='flex-start' sx={{ fontSize: '1.5em' }}>
                   {content.icon}
                 </Stack>
               )}
-              <Stack gap={4}>
-                <Stack gap={2}>
+              <Stack gap={2}>
+                <Stack gap={1}>
                   {content?.title && (
                     <DialogTitle
-                      variant='h6'
+                      variant='h5'
                       fontWeight='bold'
                       sx={{ m: 0, p: 0 }}
                     >
@@ -232,7 +237,7 @@ export const withModal = (Component: (props: any) => ReactNode) =>
                     </DialogTitle>
                   )}
                   {content?.subtitle && (
-                    <Typography variant='subtitle1' sx={{ opacity: 0.8 }}>
+                    <Typography variant='body1' sx={{ opacity: 0.8 }}>
                       {content.subtitle}
                     </Typography>
                   )}

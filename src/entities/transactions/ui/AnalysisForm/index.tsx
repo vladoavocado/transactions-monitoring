@@ -1,4 +1,10 @@
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Models } from 'src/shared';
 import { Chip, FormControlLabel, Stack, TextField } from '@mui/material';
 import {
@@ -44,13 +50,30 @@ export function BaseAnalysisForm({ readonly, issuer }: IProps) {
     ),
   );
 
-  const { control, handleSubmit, formState } = useForm({
+  const { control, handleSubmit, formState, reset } = useForm({
     resolver: yupResolver(rules),
     defaultValues: {
-      ...transactions?.active?.checks,
-      comment: transactions?.active?.comment ?? '',
+      ...(active?.checks ?? {
+        personInfoValid: false,
+        originDocsValid: false,
+        financialOpsMatch: false,
+        suspiciousCounterparties: false,
+      }),
+      comment: active?.comment ?? '',
     },
   });
+
+  useEffect(() => {
+    reset({
+      ...(active?.checks ?? {
+        personInfoValid: false,
+        originDocsValid: false,
+        financialOpsMatch: false,
+        suspiciousCounterparties: false,
+      }),
+      comment: active?.comment ?? '',
+    });
+  }, [active?.checks, active?.comment]);
 
   const onAddFile = (name: string, fileName: string) => {
     setFiles(prevState => ({ ...prevState, [name]: fileName }));
@@ -66,21 +89,15 @@ export function BaseAnalysisForm({ readonly, issuer }: IProps) {
 
       try {
         setIsLoading(true);
-
-        await new Promise(resolve => {
-          setTimeout(() => {
-            resolve({});
-          }, 3000);
-        });
-
         await transactionsApi?.createOrUpdate(
           {
             comment,
             checks: {
-              person_info_valid: checks.personInfoValid,
-              origin_docs_valid: checks.originDocsValid,
-              financial_ops_match: checks.financialOpsMatch,
-              suspicious_counterparties: checks.suspiciousCounterparties,
+              person_info_valid: checks.personInfoValid ?? false,
+              origin_docs_valid: checks.originDocsValid ?? false,
+              financial_ops_match: checks.financialOpsMatch ?? false,
+              suspicious_counterparties:
+                checks.suspiciousCounterparties ?? false,
             },
             files: {
               person_info_valid: files.personInfoValid ?? '',
@@ -207,6 +224,8 @@ export function BaseAnalysisForm({ readonly, issuer }: IProps) {
                   )}
                 />
               );
+            default:
+              return null;
           }
         })}
         {!readonly && (

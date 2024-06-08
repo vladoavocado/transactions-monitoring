@@ -1,4 +1,2 @@
-export const toCamelCase = (input: string) =>
-  input
-    .toLowerCase()
-    .replace(/[_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''));
+export const toCamelCase = (str: string): string =>
+  str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
