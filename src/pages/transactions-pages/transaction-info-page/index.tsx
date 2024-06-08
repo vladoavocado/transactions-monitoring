@@ -8,6 +8,7 @@ import {
   TransactionsListByIssuer,
   useSetActiveTransaction,
 } from 'src/entities/transactions';
+import { Skeleton } from '@mui/lab';
 
 interface IProps {}
 
@@ -26,11 +27,13 @@ export function BaseTransactionInfoPage(props: IProps) {
         gap: 2.5,
       }}
     >
-      <Stack gap={1}>
+      {transactionsApi?.isFetching ? (
+        <Skeleton height='5.5em' width='55em' />
+      ) : (
         <Typography fontWeight='bold' variant='h4'>
           Информация о транзакции № {transactions?.active?.requestNumber}
         </Typography>
-      </Stack>
+      )}
 
       <IssuerProfile />
 

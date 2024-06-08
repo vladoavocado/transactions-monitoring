@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { ElementType, ReactNode, useMemo } from 'react';
 import dayjs from 'dayjs';
 import { Models, Nullable } from 'src/shared';
-import { ProfileItemData } from 'src/shared/ui/ProfileItemData';
+import { CardItemData } from 'src/shared/ui/CardItemData';
 import IUser = Models.IUser;
+import Button from '@mui/material/Button';
 
 interface IProps {
   issuer?: IUser;
@@ -10,8 +11,7 @@ interface IProps {
 
 interface ProfileItemDataProp {
   title: string;
-  value?: string;
-  externalLink?: string;
+  value?: string | ReactNode;
   fullWidth?: boolean;
 }
 
@@ -51,7 +51,16 @@ export function Profile({ issuer }: IProps) {
       },
       jobLink: {
         title: 'Сайт компании',
-        externalLink: issuer.jobLink ?? '',
+        value: issuer.jobLink ? (
+          <Button
+            variant='outlined'
+            component='a'
+            target='_blank'
+            href={issuer.jobLink ?? ''}
+          >
+            Открыть Сайт
+          </Button>
+        ) : null,
       },
     };
   }, [issuer]);
@@ -62,11 +71,10 @@ export function Profile({ issuer }: IProps) {
 
   return (
     <>
-      {Object.values(data).map(({ title, value, externalLink, fullWidth }) => (
-        <ProfileItemData
+      {Object.values(data).map(({ title, value, fullWidth }) => (
+        <CardItemData
           title={title}
-          text={value}
-          externalLink={externalLink}
+          value={value}
           sx={{ width: fullWidth ? '100%' : null }}
         />
       ))}

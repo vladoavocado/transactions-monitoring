@@ -2,9 +2,8 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Stack, StackProps } from '@mui/system';
 import { useStore } from 'src/app/providers';
-import { ResetStatuses } from '../ResetStatuses';
 import { DelegateToEmployees } from '../DelegateToEmployees';
-import { ResetEmployees } from '../ResetEmployees';
+import { ResetTransactions } from '../ResetTransactions';
 
 export function BaseActions(props: StackProps) {
   const { account } = useStore();
@@ -16,8 +15,7 @@ export function BaseActions(props: StackProps) {
   return (
     <Stack {...props}>
       <DelegateToEmployees />
-      <ResetEmployees />
-      <ResetStatuses />
+      <ResetTransactions />
     </Stack>
   );
 }

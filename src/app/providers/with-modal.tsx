@@ -140,7 +140,7 @@ function DialogDefaultButtons({
         size='large'
         onClick={onCancel}
       >
-        Cancel
+        Отменить
       </Button>
       <LoadingButton
         sx={{ flex: 1, margin: 0 }}
@@ -151,7 +151,7 @@ function DialogDefaultButtons({
         loading={loading}
         onClick={onSubmit}
       >
-        Confirm
+        Подтвердить
       </LoadingButton>
     </>
   );

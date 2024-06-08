@@ -36,10 +36,22 @@ export namespace Models {
     readableRole: Nullable<any>;
   }
 
+  export type ITransactionChecks = ConvertSnakeToCamelCase<
+    ITransactionShape['checks']
+  >;
+
+  export type ITransactionFiles = ConvertSnakeToCamelCase<
+    ITransactionShape['files']
+  >;
+
   export interface ITransaction
-    extends ConvertSnakeToCamelCase<ITransactionShape>,
+    extends ConvertSnakeToCamelCase<
+        Omit<ITransactionShape, 'checks' | 'files'>
+      >,
       IDomainMethods<ITransaction> {
     id: string;
+    checks: ITransactionChecks;
+    files: ITransactionFiles;
   }
 
   export interface IOrganization

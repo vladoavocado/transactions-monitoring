@@ -25,6 +25,18 @@ export namespace RemoteShapes {
     employee: Nullable<string>;
     receiver: string;
     transfer_amount: number;
+    checks?: {
+      person_info_valid: boolean;
+      origin_docs_valid: boolean;
+      financial_ops_match: boolean;
+      suspicious_counterparties: boolean;
+    };
+    files?: {
+      person_info_valid: string;
+      origin_docs_valid: string;
+      financial_ops_match: string;
+      suspicious_counterparties: string;
+    };
   }
 
   export interface IOrganizationShape {

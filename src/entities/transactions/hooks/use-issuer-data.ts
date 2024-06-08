@@ -22,7 +22,6 @@ export function useIssuerData(): (entityPath?: string) => ResultEntity {
         case 'users':
           return { data: users?.find(issuerId) as IUser, type };
         case 'organizations':
-          console.log(issuerId, organizations?.values);
           return { data: organizations?.find(issuerId) as IOrganization, type };
         default:
           return { data: null, type: 'unknown' };

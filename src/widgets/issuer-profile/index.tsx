@@ -11,10 +11,6 @@ import { Models } from 'src/shared';
 import IOrganization = Models.IOrganization;
 import IUser = Models.IUser;
 
-interface IProps {
-  userId?: string;
-}
-
 export function BaseIssuerProfile() {
   const { transactions: transactionsApi } = useAPI();
   const { transactions } = useStore();

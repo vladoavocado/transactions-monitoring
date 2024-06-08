@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { Models, Nullable } from 'src/shared';
 import IOrganization = Models.IOrganization;
-import { ProfileItemData } from 'src/shared/ui/ProfileItemData';
+import { CardItemData } from 'src/shared/ui/CardItemData';
 
 interface IProps {
   issuer?: IOrganization;
@@ -62,9 +62,9 @@ export function Profile({ issuer }: IProps) {
   return (
     <>
       {Object.values(data).map(({ title, value, fullWidth }) => (
-        <ProfileItemData
+        <CardItemData
           title={title}
-          text={value}
+          value={value}
           sx={{ width: fullWidth ? '100%' : null }}
         />
       ))}

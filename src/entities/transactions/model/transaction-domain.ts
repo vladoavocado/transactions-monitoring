@@ -4,6 +4,8 @@ import { makeAutoObservable } from 'mobx';
 
 import ITransaction = Models.ITransaction;
 import ITransactionShape = RemoteShapes.ITransactionShape;
+import ITransactionChecks = Models.ITransactionChecks;
+import ITransactionFiles = Models.ITransactionFiles;
 
 export class TransactionDomain implements ITransaction {
   id: string = '';
@@ -23,6 +25,10 @@ export class TransactionDomain implements ITransaction {
   status: number = 0;
 
   transferAmount: number = 0;
+
+  checks: ITransactionChecks = {} as ITransactionChecks;
+
+  files: ITransactionFiles = {} as ITransactionFiles;
 
   constructor(data: ITransactionShape) {
     merge<ITransactionShape>(data, this);

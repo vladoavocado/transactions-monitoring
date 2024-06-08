@@ -3,7 +3,7 @@ import { LoadingButton } from '@mui/lab';
 import { useAPI, useStore } from 'src/app/providers';
 import { observer } from 'mobx-react-lite';
 
-export function BaseResetEmployees() {
+export function BaseResetTransactions() {
   const { transactions: transactionsApi } = useAPI();
   const { transactions } = useStore();
   const ids = useMemo<string[]>(
@@ -15,6 +15,7 @@ export function BaseResetEmployees() {
     transactionsApi?.createOrUpdate(
       {
         employee: null,
+        status: null,
       },
       ids,
     );
@@ -32,4 +33,4 @@ export function BaseResetEmployees() {
   );
 }
 
-export const ResetEmployees = observer(BaseResetEmployees);
+export const ResetTransactions = observer(BaseResetTransactions);

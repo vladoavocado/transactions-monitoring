@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   TRANSACTIONS_WIZARD_CHAT,
   TRANSACTIONS_WIZARD_ACCOUNT_ANALYSIS,
@@ -7,7 +7,7 @@ import {
   TRANSACTIONS_WIZARD_INFO,
   TRANSACTIONS_WIZARD_REPORT,
 } from 'src/app/routes';
-import { useAPI, useStore } from 'src/app/providers';
+import { useAPI } from 'src/app/providers';
 import { ChatWithClientPage } from 'src/pages/chat-with-client-page';
 import { AnalysisRiskPage } from './analysis-risk-page';
 import { AnalysisCurrentAccountPage } from './analysis-current-account-page';
