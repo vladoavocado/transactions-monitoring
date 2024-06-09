@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { Models, Nullable } from 'src/shared';
-import IOrganization = Models.IOrganization;
 import { CardItemData } from 'src/shared/ui/CardItemData';
+import IOrganization = Models.IOrganization;
 
 interface IProps {
   issuer?: IOrganization;
@@ -68,6 +68,11 @@ export function Profile({ issuer }: IProps) {
           sx={{ width: fullWidth ? '100%' : null }}
         />
       ))}
+      <img
+        style={{ width: '100%' }}
+        src='https://firebasestorage.googleapis.com/v0/b/bank-transactions-monito-9cc4f.appspot.com/o/company-ltd.png?alt=media&token=e4885196-7e1d-42e2-82a1-bb41b62c81b1'
+        alt='Процентные доходы'
+      />
     </>
   );
 }
