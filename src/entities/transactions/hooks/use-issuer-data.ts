@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useStore } from 'src/app/providers';
 import { Models } from 'src/shared';
 import IUser = Models.IUser;

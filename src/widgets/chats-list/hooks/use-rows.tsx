@@ -1,14 +1,28 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useAPI, useStore } from 'src/app/providers';
-import { Models } from 'src/shared';
+import { ChatConversationRoom } from 'src/entities/chat/ui';
 import { useGetTransactionIssuer } from 'src/entities/transactions';
+import { useModal } from 'src/app/providers/with-modal';
+import { Models } from 'src/shared';
+
 import IUser = Models.IUser;
-import dayjs from 'dayjs';
 
 export const useRows = () => {
   const getIssuer = useGetTransactionIssuer();
   const { messages: messagesApi, chats: chatsApi } = useAPI();
   const { users, chats } = useStore();
+
+  const { onShow } = useModal({
+    maxWidth: 'md',
+    fullWidth: true,
+  });
+
+  const showModal = onShow({
+    title: 'Чат',
+    children: <ChatConversationRoom />,
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    actions: <></>,
+  });
 
   return useMemo(
     () =>
@@ -25,7 +39,10 @@ export const useRows = () => {
             customer: (customerData as IUser).initials,
             employee: (employeeData as IUser).initials,
             actions: {
-              onOpen() {},
+              onOpen() {
+                chats?.setActive(id);
+                showModal();
+              },
             },
           };
         },

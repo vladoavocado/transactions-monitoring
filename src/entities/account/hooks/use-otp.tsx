@@ -57,16 +57,16 @@ export const useOTP = ({ onClick }: IProps) => {
     resolver: yupResolver(rules),
   });
 
+  const { onShow, onClose } = useModal({
+    maxWidth: 'sm',
+    fullWidth: true,
+  });
+
   const onSubmit = () => {
     onClose();
     onClick();
     reset();
   };
-
-  const { onShow, onClose } = useModal({
-    maxWidth: 'sm',
-    fullWidth: true,
-  });
 
   const showModal = onShow({
     title: 'Введите код, чтобы войти в систему',
@@ -96,6 +96,7 @@ export const useOTP = ({ onClick }: IProps) => {
         </Stack>
       </form>
     ),
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     actions: <></>,
   });
 

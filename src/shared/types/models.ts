@@ -1,20 +1,13 @@
-import {
-  ConvertSnakeToCamelCase,
-  IEntityModel,
-  Nullable,
-  ReactiveApi,
-} from 'src/shared';
+import { ConvertSnakeToCamelCase, IEntityModel, Nullable } from 'src/shared';
 import { RemoteShapes } from 'src/shared/types/shapes';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 export namespace Models {
   import ITransactionShape = RemoteShapes.ITransactionShape;
   import IUserShape = RemoteShapes.IUserShape;
   import IOrganizationShape = RemoteShapes.IOrganizationShape;
-  import IUsersApi = ReactiveApi.IUsersApi;
   import IChatShape = RemoteShapes.IChatShape;
   import IChatMessageShape = RemoteShapes.IMessageShape;
-  import IMessageShape = RemoteShapes.IMessageShape;
 
   export interface IAccountServer {
     id: string;
@@ -112,10 +105,14 @@ export namespace Models {
       showFrom: Dayjs | null;
       showTo: Dayjs | null;
     }): void;
+    setActive(chatId: string): void;
+    active: Nullable<IChat>;
     visible: IChat[];
   }
 
-  export interface IMessagesModel extends IEntityModel<IMessage> {}
+  export interface IMessagesModel extends IEntityModel<IMessage> {
+    visible: IMessage[];
+  }
 
   export interface IOrganizationsModel extends IEntityModel<IOrganization> {}
 

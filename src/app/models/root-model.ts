@@ -8,7 +8,7 @@ import IRootModel = Models.IRootModel;
 import IUsersModel = Models.IUsersModel;
 import ITransactionsModel = Models.ITransactionsModel;
 import IOrganizationsModel = Models.IOrganizationsModel;
-import IChatMessagesModel = Models.IMessagesModel;
+import IMessagesModel = Models.IMessagesModel;
 import IChatsModel = Models.IChatsModel;
 
 export class RootModel implements IRootModel {
@@ -24,7 +24,7 @@ export class RootModel implements IRootModel {
 
   organizations: Nullable<IOrganizationsModel> = null;
 
-  messages: Nullable<IChatMessagesModel> = null;
+  messages: Nullable<IMessagesModel> = null;
 
   chats: Nullable<IChatsModel> = null;
 
