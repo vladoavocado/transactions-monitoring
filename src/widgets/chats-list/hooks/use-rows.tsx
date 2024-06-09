@@ -6,6 +6,7 @@ import { useModal } from 'src/app/providers/with-modal';
 import { Models } from 'src/shared';
 
 import IUser = Models.IUser;
+import IOrganization = Models.IOrganization;
 
 export const useRows = () => {
   const getIssuer = useGetTransactionIssuer();
@@ -28,7 +29,7 @@ export const useRows = () => {
     () =>
       chats?.visible.map(
         ({ id, title, customer, employee, createdAt }, index) => {
-          const { data: customerData } = getIssuer(customer);
+          const { data: customerData, type } = getIssuer(customer);
           const { data: employeeData } = getIssuer(employee);
 
           return {
@@ -36,7 +37,10 @@ export const useRows = () => {
             title,
             chatNumber: index + 1,
             createdAt: createdAt.seconds * 1000,
-            customer: (customerData as IUser).initials,
+            customer:
+              type === 'organizations'
+                ? (customerData as IOrganization).name
+                : (customerData as IUser).initials,
             employee: (employeeData as IUser).initials,
             actions: {
               onOpen() {
