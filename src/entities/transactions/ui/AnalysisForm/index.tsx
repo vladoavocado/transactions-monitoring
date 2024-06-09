@@ -111,7 +111,6 @@ export function BaseAnalysisForm({ readonly, issuer }: IProps) {
 
         toast.success('Сохранено!', { duration: 5000 });
       } catch (err) {
-        console.log({ err });
         toast.error(
           'Не удалось сохранить данные. Пожалуйста, попробуйте снова',
           { duration: 5000 },

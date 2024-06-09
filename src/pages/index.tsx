@@ -3,6 +3,7 @@ import {
   RouterProvider,
   Navigate,
   createBrowserRouter,
+  Route,
 } from 'react-router-dom';
 
 // ** Routes
@@ -12,6 +13,7 @@ import {
   ROOT_PATH,
   SIGN_UP_PATH,
   TRANSACTIONS_WIZARD_PATH,
+  CHATS_PATH,
 } from 'src/app/routes';
 
 // ** Layouts
@@ -20,6 +22,8 @@ import { Gatekeeper } from 'src/widgets/gatekeeper';
 import { AuthPage } from 'src/pages/auth-page';
 import { Error404Page } from 'src/pages/error-404-page';
 import { TransactionsPages } from 'src/pages/transactions-pages';
+import { ChatsPage } from 'src/pages/chats-page';
+import React from 'react';
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +36,10 @@ export const router = createBrowserRouter([
           {
             path: TRANSACTIONS_WIZARD_PATH,
             element: <TransactionsPages />,
+          },
+          {
+            path: CHATS_PATH,
+            element: <ChatsPage />,
           },
         ],
       },

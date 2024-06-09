@@ -21,6 +21,10 @@ import { TransactionsApi } from 'src/entities/transactions/api';
 import { UsersApi } from 'src/entities/users/api';
 import { OrganizationsApi } from 'src/entities/organizations/api';
 import { OrganizationsList } from 'src/entities/organizations/model';
+import { MessagesList } from 'src/entities/messages/model';
+import { ChatsList } from 'src/entities/chat/model/chats-list';
+import { ChatsApi } from 'src/entities/chat/api';
+import { MessagesApi } from 'src/entities/messages';
 
 initializeApp(BACKEND_CONFIG);
 getAuth();
@@ -31,6 +35,8 @@ const store = new RootModel({
   transactions: TransactionsList,
   organizations: OrganizationsList,
   users: UsersList,
+  messages: MessagesList,
+  chats: ChatsList,
 });
 
 const api = new RootApi(store, {
@@ -38,6 +44,8 @@ const api = new RootApi(store, {
   transactions: TransactionsApi,
   organizations: OrganizationsApi,
   users: UsersApi,
+  chats: ChatsApi,
+  messages: MessagesApi,
 });
 
 const rootNode = document.querySelector('#root') as HTMLDivElement;

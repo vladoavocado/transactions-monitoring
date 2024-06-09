@@ -53,8 +53,15 @@ export namespace RemoteShapes {
     inn: string;
   }
 
+  export interface IMessageShape {
+    author: string;
+    created_at: Timestamp;
+    chat_id: string;
+    text: string;
+  }
+
   export interface IChatShape {
-    created_at: string;
+    created_at: Timestamp;
     customer: string;
     employee: string;
     title: string;

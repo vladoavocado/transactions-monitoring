@@ -5,12 +5,16 @@ import {
   ReactiveApi,
 } from 'src/shared';
 import { RemoteShapes } from 'src/shared/types/shapes';
+import dayjs, { Dayjs } from 'dayjs';
 
 export namespace Models {
   import ITransactionShape = RemoteShapes.ITransactionShape;
   import IUserShape = RemoteShapes.IUserShape;
   import IOrganizationShape = RemoteShapes.IOrganizationShape;
   import IUsersApi = ReactiveApi.IUsersApi;
+  import IChatShape = RemoteShapes.IChatShape;
+  import IChatMessageShape = RemoteShapes.IMessageShape;
+  import IMessageShape = RemoteShapes.IMessageShape;
 
   export interface IAccountServer {
     id: string;
@@ -67,6 +71,18 @@ export namespace Models {
     type: string;
   }
 
+  export interface IMessage
+    extends ConvertSnakeToCamelCase<IChatMessageShape>,
+      IDomainMethods<IMessage> {
+    id: string;
+  }
+
+  export interface IChat
+    extends ConvertSnakeToCamelCase<IChatShape>,
+      IDomainMethods<IChat> {
+    id: string;
+  }
+
   export interface IAccountModel extends IAccount {
     parse(data: IAccountServer): void;
     reset(): void;
@@ -91,6 +107,16 @@ export namespace Models {
     employees: IUser[];
   }
 
+  export interface IChatsModel extends IEntityModel<IChat> {
+    setVisibleRange(range: {
+      showFrom: Dayjs | null;
+      showTo: Dayjs | null;
+    }): void;
+    visible: IChat[];
+  }
+
+  export interface IMessagesModel extends IEntityModel<IMessage> {}
+
   export interface IOrganizationsModel extends IEntityModel<IOrganization> {}
 
   export interface IRootModel {
@@ -99,5 +125,7 @@ export namespace Models {
     organizations: Nullable<IOrganizationsModel>;
     transactions: Nullable<ITransactionsModel>;
     users: Nullable<IUsersModel>;
+    messages: Nullable<IMessagesModel>;
+    chats: Nullable<IChatsModel>;
   }
 }

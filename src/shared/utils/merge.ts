@@ -1,4 +1,5 @@
 import { toCamelCase } from 'src/shared/utils/to-camel-case';
+import { DocumentReference } from 'firebase/firestore';
 
 /**
  * Recursively transforms the keys of an object or an array to camel case.
@@ -10,7 +11,12 @@ const transformKeysToCamelCase = (obj: any): any => {
     // If the input is an array, map over each element and apply the transformation recursively.
     return obj.map(transformKeysToCamelCase);
   }
-  if (obj !== null && typeof obj === 'object') {
+
+  if (
+    obj !== null &&
+    !(obj instanceof DocumentReference) &&
+    typeof obj === 'object'
+  ) {
     // If the input is an object, iterate over its keys.
     return Object.keys(obj).reduce((acc, key) => {
       // Transform the current key to camel case.

@@ -9,6 +9,10 @@ export namespace ReactiveApi {
   import IUser = Models.IUser;
   import IOrganizationShape = RemoteShapes.IOrganizationShape;
   import IOrganization = Models.IOrganization;
+  import IChatShape = RemoteShapes.IChatShape;
+  import IChat = Models.IChat;
+  import IMessage = Models.IMessage;
+  import IMessageShape = RemoteShapes.IMessageShape;
 
   type IApiOptions = Record<string, any>;
 
@@ -82,6 +86,12 @@ export namespace ReactiveApi {
     extends IBaseApi<ITransactionShape, ITransaction>,
       IApiState {}
 
+  export interface IChatsApi extends IBaseApi<IChatShape, IChat>, IApiState {}
+
+  export interface IMessagesApi
+    extends IBaseApi<IMessageShape, IMessage>,
+      IApiState {}
+
   export interface IUsersApi extends IBaseApi<IUserShape, IUser>, IApiState {}
 
   export interface IOrganizationsApi
@@ -102,5 +112,7 @@ export namespace ReactiveApi {
     transactions: Nullable<ITransactionsApi>;
     users: Nullable<IUsersApi>;
     organizations: Nullable<IOrganizationsApi>;
+    messages: Nullable<IMessagesApi>;
+    chats: Nullable<IChatsApi>;
   }
 }

@@ -2051,7 +2051,7 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@mui/base@5.0.0-beta.40":
+"@mui/base@5.0.0-beta.40", "@mui/base@^5.0.0-beta.40":
   version "5.0.0-beta.40"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-beta.40.tgz#1f8a782f1fbf3f84a961e954c8176b187de3dae2"
   integrity sha512-I/lGHztkCzvwlXpjD2+SNmvNQvB4227xBXhISPjEaJUXGImOQ9f3D2Yj/T3KasSI/h0MLWy74X0J6clhPmsRbQ==
@@ -2176,6 +2176,20 @@
     clsx "^2.1.1"
     prop-types "^15.8.1"
     reselect "^4.1.8"
+
+"@mui/x-date-pickers@7.6.2":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-7.6.2.tgz#361ab64ecce2f2b8d3ce57cbda4e3c5acc4aed02"
+  integrity sha512-9e5qO76eLvjiEm7Yt4HNR1jqGFia7vnZYbhi4Tw/xQ32emMKYLUzXZLhQNtb1wa7SwHWxXcPJOkIEmvQgEvaqQ==
+  dependencies:
+    "@babel/runtime" "^7.24.6"
+    "@mui/base" "^5.0.0-beta.40"
+    "@mui/system" "^5.15.15"
+    "@mui/utils" "^5.15.14"
+    "@types/react-transition-group" "^4.4.10"
+    clsx "^2.1.1"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
 
 "@next/eslint-plugin-next@13.2.4":
   version "13.2.4"

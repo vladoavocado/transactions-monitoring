@@ -8,6 +8,8 @@ import IRootModel = Models.IRootModel;
 import IUsersModel = Models.IUsersModel;
 import ITransactionsModel = Models.ITransactionsModel;
 import IOrganizationsModel = Models.IOrganizationsModel;
+import IChatMessagesModel = Models.IMessagesModel;
+import IChatsModel = Models.IChatsModel;
 
 export class RootModel implements IRootModel {
   ui = new GlobalUi(this);
@@ -21,6 +23,10 @@ export class RootModel implements IRootModel {
   transactions: Nullable<ITransactionsModel> = null;
 
   organizations: Nullable<IOrganizationsModel> = null;
+
+  messages: Nullable<IChatMessagesModel> = null;
+
+  chats: Nullable<IChatsModel> = null;
 
   constructor(models: Record<keyof IRootModel, new (...args: any[]) => any>) {
     if (!models) {

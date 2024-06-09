@@ -13,7 +13,7 @@ import {
 import { generatePath, NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'src/app/providers';
-import { HOME_PATH } from 'src/app/routes';
+import { CHATS_PATH, HOME_PATH } from 'src/app/routes';
 import { useNavigationLinks } from './hooks';
 
 export function BaseNavigation() {
@@ -45,7 +45,9 @@ export function BaseNavigation() {
           }}
         >
           {links.map(({ title, Icon, to }) => {
-            const disabled = to !== HOME_PATH ? !transactions?.active : false;
+            const disableIfTransactionAbsent =
+              to !== HOME_PATH ? !transactions?.active : false;
+            const disabled = disableIfTransactionAbsent && to !== CHATS_PATH;
             const nextUrl =
               to !== HOME_PATH && transactions?.active?.id
                 ? generatePath(to, {

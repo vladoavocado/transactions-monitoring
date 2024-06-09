@@ -10,7 +10,7 @@ import {
 import {
   HOME_PATH,
   TRANSACTIONS_WIZARD_ACCOUNT_ANALYSIS,
-  TRANSACTIONS_WIZARD_CHAT,
+  CHATS_PATH,
   TRANSACTIONS_WIZARD_INFO,
   TRANSACTIONS_WIZARD_REPORT,
   TRANSACTIONS_WIZARD_RISK_ANALYSIS,
@@ -47,7 +47,7 @@ export const useNavigationLinks = () =>
       {
         title: 'Связь с клиентом',
         Icon: ChatBubble,
-        to: `${HOME_PATH}/${TRANSACTIONS_WIZARD_CHAT}`,
+        to: CHATS_PATH,
       },
     ],
     [],
