@@ -1,5 +1,6 @@
 import React, { useCallback, useState, MouseEvent } from 'react';
 import { Theme } from '@mui/material/styles';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {
   Box,
   Fade,
@@ -11,14 +12,28 @@ import {
 import { Stack } from '@mui/system';
 import { Logotype } from 'src/shared/ui/Logotype';
 import { Logout } from '@mui/icons-material';
-import { useAPI } from 'src/app/providers';
+import { useAPI, useStore } from 'src/app/providers';
 import { Nullable } from 'src/shared';
 import { AccountProfileBadge } from 'src/entities/account/ui/AccountProfileBadge';
+import { useModal } from 'src/app/providers/with-modal';
+import { ReportModal } from 'src/entities/account/ui/ReportModal';
 
 export function TopBar() {
   const [anchorEl, setAnchorEl] = useState<Nullable<HTMLElement>>(null);
   const isVisible = Boolean(anchorEl);
   const { auth: authApi } = useAPI();
+  const { account } = useStore();
+  const { onShow } = useModal({
+    fullWidth: true,
+    maxWidth: 'xl',
+  });
+
+  const showModal = onShow({
+    title: 'Отчётность к выгрузке',
+    children: <ReportModal />,
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    actions: <></>,
+  });
 
   const openContextMenu = useCallback((event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -71,6 +86,14 @@ export function TopBar() {
           onClose={closeContextMenu}
           TransitionComponent={Fade}
         >
+          {account?.isAdmin && (
+            <MenuItem onClick={showModal}>
+              <ListItemIcon>
+                <FileUploadIcon />
+              </ListItemIcon>
+              Выгрузить отчётность
+            </MenuItem>
+          )}
           <MenuItem onClick={logout}>
             <ListItemIcon>
               <Logout fontSize='small' />
